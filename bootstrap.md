@@ -47,22 +47,26 @@ placeholder content only, enough to prove the pipeline works end-to-end.
       already authorized for new repos under this account — no manual GitHub-side step needed.
       First deployment (ad-hoc trigger) succeeded; confirmed live at stilistik-site.pages.dev.
 - [x] Custom domain `stilistik.org` attached to the Pages project via API.
-- [ ] **BLOCKED**: the CNAME record pointing stilistik.org at the Pages project was not
-      auto-created. Domain status stays `pending` / `CNAME record not set`. Root cause: the
-      `wrangler` OAuth token used for all the API calls above has `zone:read` but not DNS
-      record write scope — direct `zones/{id}/dns_records` calls return `Authentication error`
-      (code 10000). The Cloudflare MCP servers connected earlier this session (broader consent,
-      including account-level write) aren't reachable via this running session's tool set — they
-      were registered mid-session and this process needs a restart to pick them up (same class of
-      issue as the settings-watcher caveat for hooks). **Next step**: either restart this Claude
-      Code session and retry via the `cloudflare-api`/`cloudflare-bindings` MCP tools, or add the
-      CNAME manually in the Cloudflare dashboard (DNS → stilistik.org zone → CNAME `stilistik.org`
-      → `stilistik-site.pages.dev`, proxied).
+- [x] CNAME record (`stilistik.org` → `stilistik-site.pages.dev`, proxied) created via the
+      `cloudflare-api` MCP tools once available in a fresh session. Root cause of the earlier
+      failure: the `wrangler` OAuth token (and the `cloudflare-api` MCP token, on its first try)
+      had DNS read but not DNS write scope — `zones/{id}/dns_records` POST returned
+      `Authentication error` (code 10000) even though GET worked fine. Resolved once the user
+      re-granted/refreshed DNS-write scope on the Cloudflare side; retrying the exact same POST
+      then succeeded immediately — **no Claude Code session restart was actually needed**, that
+      was a wrong initial diagnosis. Domain went from `pending`/`CNAME record not set` to fully
+      active within ~30s of the record existing.
 - [x] End-to-end pipeline test — done via the tagline-text fix (real bug found during setup, not a
       throwaway edit): local change → commit → push → Cloudflare auto-triggered a production build
       (no manual trigger needed, confirming the git-integration webhook works) → succeeded → change
-      confirmed live at **stilistik-site.pages.dev**. The apex domain leg (stilistik.org itself)
-      is what's blocked on the DNS item above — everything upstream of DNS is proven working.
+      confirmed live. **Fully confirmed at https://stilistik.org itself** (not just the .pages.dev
+      subdomain) — title, tagline, and placeholder content all correct, no gpunkt.org leftovers.
+
+## Pipeline: done
+
+Local → GitHub (`alemsabic/stilistik-site`, `v5` branch) → Cloudflare Pages (native Git
+integration, auto-build on push) → stilistik.org is fully wired and verified working end-to-end.
+Next up is the explicitly-deferred list below — content and design, not pipeline.
 
 ## Explicitly deferred (next pass, not this one)
 
