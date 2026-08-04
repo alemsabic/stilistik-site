@@ -4,7 +4,7 @@ import { classNames } from "@quartz-community/utils";
 const Tagline: QuartzComponent = ({ displayClass }: QuartzComponentProps) => {
   return (
     <div class={classNames(displayClass, "tagline", "desktop-only")}>
-      Reizwörter - Wahrheit ist Wortwahl.
+      Pipeline-Platzhalter — Content folgt.
     </div>
   );
 };
