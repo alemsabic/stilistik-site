@@ -24,30 +24,45 @@ placeholder content only, enough to prove the pipeline works end-to-end.
 
 ## Steps
 
-- [ ] Copy gpunkt.org's repo structure (`quartz/`, `local-plugins/`, `quartz.config.yaml`,
+- [x] Copy gpunkt.org's repo structure (`quartz/`, `local-plugins/`, `quartz.config.yaml`,
       `quartz.ts`, `quartz.lock.json`, `package.json`, etc.) into `stilistik.org/`, excluding
-      `.git/`, `node_modules/`, `public/`, and gpunkt's actual `content/` (real dictionary content —
-      must not ship to stilistik.org). Preserve the `CLAUDE.md` / `.mcp.json` / `.claude/` already
-      written here.
-- [ ] Replace `content/` with a single minimal placeholder page — just enough for a build to
-      succeed and something to appear at stilistik.org root.
-- [ ] Rename gpunkt→stilistik: site title/tagline in `quartz.config.yaml`, `package.json` name,
-      README. **Giscus (comments)**: disable or leave unconfigured for now — it's bound to a specific
-      GitHub repo with Discussions enabled and needs fresh registration at giscus.app once
-      `stilistik-site` exists; not required for the pipeline test.
-- [ ] Local build check: `npm install`, `npx quartz plugin install --from-config && npx quartz build`
-      — must succeed before anything gets pushed anywhere.
-- [ ] `gh repo create alemsabic/stilistik-site` (public, matching sibling repos), git init, initial
-      commit, push. Default/production branch: `v5`, matching ale.ms/gpunkt.org convention (not
-      `main`) — keeps the three repos consistent for future cross-porting.
-- [ ] Cloudflare Pages: new project connected to `alemsabic/stilistik-site` via native Git
-      integration (not GitHub Actions — matches how ale.ms/gpunkt.org actually deploy, see their
-      `CLAUDE.md`s). Build command: `npx quartz plugin install --from-config && npx quartz build`.
-      Output directory: `public`. Production branch: `v5`.
-- [ ] Attach `stilistik.org` custom domain (already on this Cloudflare account) to the new Pages
-      project.
-- [ ] End-to-end test: trivial edit to the placeholder page → commit → push → confirm Cloudflare
-      build succeeds → confirm change is live at stilistik.org.
+      `.git/`, `node_modules/`, `public/`, and gpunkt's actual `content/`. `quartz.lock.json` had
+      gpunkt.org's absolute machine paths baked into its `resolved` fields — fixed via sed.
+- [x] Replace `content/` with a minimal placeholder page (`content/index.md` + empty
+      `content/bibliography.bib`, the latter needed because the citations plugin's
+      `bibliographyFile` option points at it unconditionally).
+- [x] Rename gpunkt→stilistik in `quartz.config.yaml` (pageTitle, baseUrl, giscus `baseUrl`/`repo`/
+      `themeUrl`). Giscus plugin set to `enabled: false` (repoId/categoryId were gpunkt-specific,
+      need fresh registration at giscus.app once ready). **Found and fixed a second leftover**:
+      `local-plugins/tagline/src/components/Tagline.tsx` had gpunkt.org's actual tagline text
+      hardcoded in source (not config-driven) — this is the kind of thing a blind sed pass over
+      `quartz.config.yaml` alone would have missed; worth a `grep -ri "gpunkt"` sweep before any
+      future "looks done" declaration on this repo.
+- [x] Local build check — succeeded after the two content-dependency fixes above. All 18
+      local-plugins built clean via `npx quartz plugin install --from-config`.
+- [x] `gh repo create alemsabic/stilistik-site`, git init, initial commit, push to `v5` (set as
+      default branch). No secrets or build artifacts in the initial commit (803 files, checked).
+- [x] Cloudflare Pages project `stilistik-site` created via direct API call (native Git
+      integration, source.type=github, same build_config as gpunkt-site). The GitHub App was
+      already authorized for new repos under this account — no manual GitHub-side step needed.
+      First deployment (ad-hoc trigger) succeeded; confirmed live at stilistik-site.pages.dev.
+- [x] Custom domain `stilistik.org` attached to the Pages project via API.
+- [ ] **BLOCKED**: the CNAME record pointing stilistik.org at the Pages project was not
+      auto-created. Domain status stays `pending` / `CNAME record not set`. Root cause: the
+      `wrangler` OAuth token used for all the API calls above has `zone:read` but not DNS
+      record write scope — direct `zones/{id}/dns_records` calls return `Authentication error`
+      (code 10000). The Cloudflare MCP servers connected earlier this session (broader consent,
+      including account-level write) aren't reachable via this running session's tool set — they
+      were registered mid-session and this process needs a restart to pick them up (same class of
+      issue as the settings-watcher caveat for hooks). **Next step**: either restart this Claude
+      Code session and retry via the `cloudflare-api`/`cloudflare-bindings` MCP tools, or add the
+      CNAME manually in the Cloudflare dashboard (DNS → stilistik.org zone → CNAME `stilistik.org`
+      → `stilistik-site.pages.dev`, proxied).
+- [x] End-to-end pipeline test — done via the tagline-text fix (real bug found during setup, not a
+      throwaway edit): local change → commit → push → Cloudflare auto-triggered a production build
+      (no manual trigger needed, confirming the git-integration webhook works) → succeeded → change
+      confirmed live at **stilistik-site.pages.dev**. The apex domain leg (stilistik.org itself)
+      is what's blocked on the DNS item above — everything upstream of DNS is proven working.
 
 ## Explicitly deferred (next pass, not this one)
 
