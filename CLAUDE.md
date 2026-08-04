@@ -60,19 +60,23 @@ and gpunkt.org.
 
 ## Project Status
 
-**Not yet bootstrapped.** As of 2026-08-04, this directory contains no Quartz install, no git repo,
-and no deployed site — just this `CLAUDE.md` and the MCP/skill setup below. Setting this project up
-means, roughly (mirroring ale.ms/gpunkt.org's `upgrade.md` history rather than reinventing it):
+**Pipeline bootstrapped (2026-08-04); content and design not started.** This repo was cloned from
+gpunkt.org's Quartz v5 setup (not a fresh install — see `bootstrap.md` for why and for the full
+rename/setup checklist, kept there rather than replayed here). Presentation side is live and
+verified end-to-end. Content side is not: `content/` holds only a placeholder page, and the content
+repo doesn't exist yet.
 
-- Initialize this repo (Quartz v5, not v4 — no need to repeat the sister projects' v4→v5 migration).
-- Create `alemsabic/stilistik-regeln` on GitHub, init `/Users/alemsabic/Desktop/MEMEX/Projekte/stilistik/`
-  as its local clone, set up the `sync-to-quartz.yml` GitHub Action (copy from `gpunkt-woerter` or
-  `alems-notizen` and adjust the target branch/repo).
-- Create `alemsabic/stilistik-site` (or similar) on GitHub for this presentation repo, wire up
-  Cloudflare Pages (native Git integration, matching ale.ms/gpunkt.org — not GitHub-Actions-based
-  deploy, see their `CLAUDE.md`s for why).
-- Once live, replace this section with the sister projects' equivalent `Deployment` / `File
-  Structure` / `Current Configuration` sections, filled in with this project's actual values.
+**Still open**:
+
+- Content repo `alemsabic/stilistik-regeln` — not created yet. Local folder exists but is empty, no
+  git repo initialized: `/Users/alemsabic/Desktop/MEMEX/Projekte/stilistik/`.
+- `sync-to-quartz.yml` GitHub Action (copy from `gpunkt-woerter` or `alems-notizen`, adjust target
+  repo/branch) — not set up; needs a `QUARTZ_REPO_TOKEN` PAT once the content repo exists.
+- Giscus comments — disabled in `quartz.config.yaml` (placeholder `repoId`/`categoryId`), needs
+  fresh registration at giscus.app once real content exists.
+- Actual content and visual identity — currently inherits gpunkt.org's "Clinical Cold" theme and
+  tagline text verbatim (renamed to placeholder strings only); revisit both once content work
+  starts.
 
 **Purpose** (best current understanding, confirm/refine once content work starts): stilistik.org —
 German-language reference on stylistics/language rules ("Stilistik"/"Sprachregeln"), sibling in
@@ -80,6 +84,23 @@ spirit to gpunkt.org's dictionary-entry format. The content repo name `stilistik
 2026-08-04 over `stilistik-begriffe` (lexicon-of-terms framing) and `sprachregeln` (drops the site
 name) — revisit if the actual content shape turns out closer to a term-by-term lexicon than a
 rules/guidance reference.
+
+## Deployment
+
+**Platform**: Cloudflare Pages, native Git integration (matching ale.ms/gpunkt.org).
+
+- **Repository**: https://github.com/alemsabic/stilistik-site
+- **Branch**: `v5` (production + default, matching sister-project convention from the start —
+  no v4 history here to carry along).
+- **Project**: `stilistik-site`, custom domain `stilistik.org` attached and verified.
+- **Build Command**: `npx quartz plugin install --from-config && npx quartz build` — same
+  `--from-config` requirement as the sister projects, see their `CLAUDE.md`s for why it's not
+  optional.
+- **Output Directory**: `public`
+- `upstream` git remote (`https://github.com/jackyzha0/quartz.git`) is set up, matching
+  ale.ms/gpunkt.org, for whenever a future Quartz version upgrade is needed — see `upgrade.md` in
+  either sister repo for the actual fetch/checkout/re-port mechanism (vendored core, not an npm
+  dependency, so it's a manual process either way).
 
 ---
 
@@ -110,5 +131,9 @@ when indexing genuine external documentation, not this repo's own short files.
 
 - No `jCodeMunch`/code-indexing MCP here by design — ale.ms and gpunkt.org removed it 2026-08-04 (it
   wasn't earning its keep for repos this size); don't re-add it without a fresh reason.
-- Once this project is bootstrapped, keep this file, `CUSTOM-MODIFICATIONS.md`, and `upgrade.md` in
-  the same shape as ale.ms/gpunkt.org — that's the whole point of the Sister Projects alignment.
+- `CUSTOM-MODIFICATIONS.md` here is still gpunkt.org's content verbatim (inherited via the clone,
+  not yet re-reviewed for this repo) — accurate for the code as it stands today, but revisit once
+  any local-plugins/quartz diverge from gpunkt.org's originals.
+- Once content work starts, replace `upgrade.md`'s absence with either a real one (if a version
+  upgrade happens) or leave it out — `bootstrap.md` already covers this repo's actual origin story,
+  no need to fabricate migration history that didn't happen here.
