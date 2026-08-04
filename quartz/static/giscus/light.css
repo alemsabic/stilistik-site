@@ -1,0 +1,201 @@
+/*! MIT License
+ * Copyright (c) 2018 GitHub Inc.
+ * https://github.com/primer/primitives/blob/main/LICENSE
+ */
+
+main {
+  /* System Sans Serif Stack */
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif,
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol";
+
+  /* Clinical Cold Theme - Light Mode */
+  --bg: #d4d4d4; /* Cool gray */
+  --bg-secondary: rgba(0, 0, 0, 0.05);
+  --text: #222222; /* Dark gray */
+  --text-muted: #666666; /* Muted gray */
+  --link: #3347cb; /* Accent blue, matches site headings/links */
+  --link-hover: #5468e0; /* Lighter accent blue */
+  --border: #cccccc; /* Light gray border */
+
+  /* Syntax highlighting */
+  --color-prettylights-syntax-comment: rgba(34, 34, 34, 0.6);
+  --color-prettylights-syntax-constant: var(--link);
+  --color-prettylights-syntax-entity: var(--link);
+  --color-prettylights-syntax-storage-modifier-import: var(--text);
+  --color-prettylights-syntax-entity-tag: var(--link);
+  --color-prettylights-syntax-keyword: var(--link);
+  --color-prettylights-syntax-string: var(--link);
+  --color-prettylights-syntax-variable: var(--text);
+  --color-prettylights-syntax-brackethighlighter-unmatched: var(--link);
+  --color-prettylights-syntax-invalid-illegal-text: var(--bg);
+  --color-prettylights-syntax-invalid-illegal-bg: var(--link);
+  --color-prettylights-syntax-carriage-return-text: var(--bg);
+  --color-prettylights-syntax-carriage-return-bg: var(--link);
+  --color-prettylights-syntax-string-regexp: var(--link);
+  --color-prettylights-syntax-markup-list: var(--text);
+  --color-prettylights-syntax-markup-heading: var(--link);
+  --color-prettylights-syntax-markup-italic: var(--text);
+  --color-prettylights-syntax-markup-bold: var(--text);
+  --color-prettylights-syntax-markup-deleted-text: var(--link);
+  --color-prettylights-syntax-markup-deleted-bg: var(--bg-secondary);
+  --color-prettylights-syntax-markup-inserted-text: var(--link);
+  --color-prettylights-syntax-markup-inserted-bg: var(--bg-secondary);
+  --color-prettylights-syntax-markup-changed-text: var(--text);
+  --color-prettylights-syntax-markup-changed-bg: var(--bg-secondary);
+  --color-prettylights-syntax-markup-ignored-text: var(--text-muted);
+  --color-prettylights-syntax-markup-ignored-bg: var(--link);
+  --color-prettylights-syntax-meta-diff-range: var(--link);
+  --color-prettylights-syntax-brackethighlighter-angle: var(--text-muted);
+  --color-prettylights-syntax-sublimelinter-gutter-mark: var(--text-muted);
+  --color-prettylights-syntax-constant-other-reference-link: var(--link);
+
+  /* Button styles */
+  --color-btn-text: #222222;
+  --color-btn-bg: transparent;
+  --color-btn-border: #cccccc;
+  --color-btn-shadow: none;
+  --color-btn-inset-shadow: none;
+  --color-btn-hover-bg: rgba(0, 0, 0, 0.05);
+  --color-btn-hover-border: #999999;
+  --color-btn-active-bg: rgba(0, 0, 0, 0.1);
+  --color-btn-active-border: #999999;
+  --color-btn-selected-bg: rgba(0, 0, 0, 0.1);
+
+  /* Primary button */
+  --color-btn-primary-text: #ffffff;
+  --color-btn-primary-bg: #222222;
+  --color-btn-primary-border: #222222;
+  --color-btn-primary-shadow: none;
+  --color-btn-primary-inset-shadow: none;
+  --color-btn-primary-hover-bg: #333333;
+  --color-btn-primary-hover-border: #333333;
+  --color-btn-primary-selected-bg: #333333;
+  --color-btn-primary-selected-shadow: none;
+
+  /* Disabled state */
+  --color-btn-primary-disabled-text: rgba(255, 255, 255, 0.5);
+  --color-btn-primary-disabled-bg: rgba(34, 34, 34, 0.5);
+  --color-btn-primary-disabled-border: transparent;
+
+  /* Action list and controls */
+  --color-action-list-item-default-hover-bg: rgba(0, 0, 0, 0.05);
+  --color-segmented-control-bg: rgba(0, 0, 0, 0.05);
+  --color-segmented-control-button-bg: transparent;
+  --color-segmented-control-button-selected-border: #222222;
+
+  /* Foreground colors */
+  --color-fg-default: var(--text);
+  --color-fg-muted: var(--text-muted);
+  --color-fg-subtle: var(--text-muted);
+
+  /* Canvas colors */
+  --color-canvas-default: var(--bg);
+  --color-canvas-overlay: var(--bg);
+  --color-canvas-inset: transparent;
+  --color-canvas-subtle: transparent;
+
+  /* Border colors */
+  --color-border-default: rgba(34, 34, 34, 0.2);
+  --color-border-muted: rgba(34, 34, 34, 0.1);
+  --color-neutral-muted: rgba(34, 34, 34, 0.05);
+
+  /* Accent colors */
+  --color-accent-fg: var(--link);
+  --color-accent-emphasis: var(--link);
+  --color-accent-muted: rgba(34, 34, 34, 0.4);
+  --color-accent-subtle: rgba(34, 34, 34, 0.1);
+
+  /* Success, attention, danger */
+  --color-success-fg: #222222;
+  --color-attention-fg: #222222;
+  --color-attention-muted: rgba(34, 34, 34, 0.4);
+  --color-attention-subtle: rgba(34, 34, 34, 0.1);
+  --color-danger-fg: #222222;
+  --color-danger-muted: rgba(34, 34, 34, 0.4);
+  --color-danger-subtle: rgba(34, 34, 34, 0.1);
+
+  /* Shadows */
+  --color-primer-shadow-inset: none;
+  --color-scale-gray-1: rgba(0, 0, 0, 0.05);
+  --color-scale-blue-1: rgba(0, 0, 0, 0.05);
+
+  /*! Extensions */
+  --color-social-reaction-bg-hover: rgba(0, 0, 0, 0.05);
+  --color-social-reaction-bg-reacted-hover: rgba(0, 0, 0, 0.1);
+}
+
+main .pagination-loader-container {
+  background-image: url("https://github.com/images/modules/pulls/progressive-disclosure-line.svg");
+}
+
+main .gsc-loading-image {
+  background-image: url("https://github.githubassets.com/images/mona-loading-default.gif");
+}
+
+/* System Typography Overrides */
+main code,
+main pre {
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    SF Mono,
+    Menlo,
+    Consolas,
+    Liberation Mono,
+    monospace;
+}
+
+/* Fix text color and font-weight */
+main .color-text-primary {
+  color: #222222 !important;
+  font-weight: 700 !important;
+}
+
+main .color-text-primary.underline {
+  color: #222222 !important;
+  font-weight: 700 !important;
+  text-decoration: underline !important;
+}
+
+/* Reactions count */
+main .gsc-reactions-count {
+  color: #222222 !important;
+  font-weight: 700 !important;
+}
+
+/* Comments count */
+main .gsc-comments-count,
+main .gsc-comments-count-separator {
+  color: #222222 !important;
+  font-weight: 700 !important;
+}
+
+/* Input Placeholder */
+main textarea::placeholder,
+main input::placeholder {
+  color: rgba(34, 34, 34, 0.6) !important;
+}
+
+/* Input Borders & Backgrounds */
+main textarea,
+main input {
+  border: 1px solid rgba(34, 34, 34, 0.2) !important;
+  background-color: rgba(0, 0, 0, 0.03) !important;
+  color: #222222 !important;
+}
+
+main textarea:focus,
+main input:focus {
+  border: 1px solid #222222 !important;
+  box-shadow: none !important;
+}

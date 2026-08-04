@@ -1,0 +1,402 @@
+# yaml-language-server: $schema=./quartz/plugins/quartz-plugins.schema.json
+configuration:
+  pageTitle: stilistik
+  pageTitleSuffix: "Pipeline-Platzhalter — Content folgt"
+  enableSPA: true
+  enablePopovers: true
+  analytics:
+    provider: plausible
+  locale: de-DE
+  baseUrl: stilistik.org
+  ignorePatterns:
+    - private
+    - templates
+    - .obsidian
+  theme:
+    fontOrigin: googleFonts
+    cdnCaching: true
+    typography:
+      header: Archivo
+      body: Inter
+      code: JetBrains Mono
+    colors:
+      lightMode:
+        light: "#d4d4d4"
+        lightgray: rgba(0, 0, 0, 0.07)
+        gray: "#666666"
+        darkgray: "#111111"
+        dark: "#222222"
+        secondary: "#3347cb"
+        tertiary: "#5468e0"
+        highlight: rgba(0, 0, 0, 0.08)
+        textHighlight: "#00000014"
+      darkMode:
+        light: "#0a1967"
+        lightgray: rgba(255, 255, 255, 0.1)
+        gray: "#888888"
+        darkgray: "#eeeeee"
+        dark: "#dddddd"
+        secondary: "#ee683d"
+        tertiary: "#f58a68"
+        highlight: rgba(255, 255, 255, 0.1)
+        textHighlight: "#ffffff14"
+plugins:
+  - source: "@quartz-community/created-modified-date"
+    enabled: true
+    options:
+      defaultDateType: modified
+      priority:
+        - frontmatter
+        - git
+        - filesystem
+    order: 10
+  - source: "@quartz-community/syntax-highlighting"
+    enabled: true
+    options:
+      theme:
+        light: github-light
+        dark: github-dark
+      keepBackground: false
+    order: 20
+  - source: "@quartz-community/obsidian-flavored-markdown"
+    enabled: true
+    options:
+      enableInHtmlEmbed: false
+      enableCheckbox: true
+    order: 30
+  - source: "./local-plugins/github-flavored-markdown"
+    enabled: true
+    order: 40
+  - source: "./local-plugins/table-of-contents"
+    enabled: true
+    options:
+      minEntries: 4
+      maxDepth: 3
+      showByDefault: true
+      collapseByDefault: false
+    order: 50
+    layout:
+      position: right
+      priority: 10
+      display: desktop-only
+  - source: "@quartz-community/crawl-links"
+    enabled: true
+    options:
+      markdownLinkResolution: shortest
+    order: 60
+  - source: "@quartz-community/description"
+    enabled: true
+    order: 70
+  - source: "@quartz-community/latex"
+    enabled: true
+    options:
+      renderEngine: katex
+    order: 80
+  - source: "./local-plugins/heading-badges"
+    enabled: true
+    order: 81
+  - source: "./local-plugins/im-fokus"
+    enabled: true
+    order: 82
+  - source: "./local-plugins/citations"
+    enabled: true
+    options:
+      bibliographyFile: ./content/bibliography.bib
+      suppressBibliography: false
+      linkCitations: false
+      csl: apa
+      showTooltips: true
+      tooltipAttribute: data-tooltip
+    order: 85
+  - source: "@quartz-community/hard-line-breaks"
+    enabled: false
+    order: 90
+  - source: "@quartz-community/ox-hugo"
+    enabled: false
+    order: 91
+  - source: "@quartz-community/roam"
+    enabled: false
+    order: 92
+  - source: "@quartz-community/quartz-fonts"
+    enabled: false
+  - source: "@quartz-themes/core"
+    enabled: false
+    options:
+      theme: tokyo-night
+      mode: both
+  - source: "@quartz-community/remove-draft"
+    enabled: true
+  - source: "@quartz-community/explicit-publish"
+    enabled: false
+  - source: "@quartz-community/unlisted-pages"
+    enabled: true
+    options: {}
+    order: 45
+  - source: "@quartz-community/encrypted-pages"
+    enabled: true
+    options:
+      iterations: 600000
+      passwordField: password
+      unlistWhenEncrypted: false
+      outputPath: static/encryptedContentIndex.json
+  - source: "@quartz-community/stacked-pages"
+    enabled: false
+    layout:
+      position: afterBody
+      priority: 50
+      display: all
+  - source: "@quartz-community/alias-redirects"
+    enabled: true
+  - source: "./local-plugins/content-index"
+    enabled: true
+    options:
+      enableSiteMap: true
+      enableRSS: true
+  - source: "@quartz-community/favicon"
+    enabled: true
+  - source: "@quartz-community/og-image"
+    enabled: true
+  - source: "@quartz-community/cname"
+    enabled: true
+  - source: "@quartz-community/canvas-page"
+    enabled: true
+  - source: "@quartz-community/content-page"
+    enabled: true
+  - source: "./local-plugins/folder-page"
+    enabled: true
+  - source: "./local-plugins/tag-page"
+    enabled: true
+    options:
+      prefixTags: true
+  - source: "@quartz-community/explorer"
+    enabled: true
+    options:
+      title: "Wörter"
+    layout:
+      position: left
+      priority: 50
+      condition: not-index
+  # Local fork (German heading renamed "Graphansicht" → "Graph") — see local-plugins/graph/FORK_NOTES.md
+  - source: "./local-plugins/graph"
+    enabled: true
+    layout:
+      position: right
+      priority: 20
+      condition: not-index
+  # Index-only: same forked Graph component, always-expanded (depth: -1 = every note reachable
+  # by link from the homepage, not just 1-hop neighbors). Renders before Recent Notes
+  # (priority 5) in afterBody.
+  - source: "./local-plugins/graph"
+    enabled: true
+    options:
+      localGraph:
+        depth: -1
+    layout:
+      position: afterBody
+      priority: 2
+      condition: is-index
+  - source: "@quartz-community/search"
+    enabled: true
+    layout:
+      position: beforeBody
+      priority: 10
+      group: toolbar
+      groupOptions:
+        grow: true
+  - source: "@quartz-community/backlinks"
+    enabled: true
+    layout:
+      position: right
+      priority: 30
+      condition: not-index
+  - source: "@quartz-community/article-title"
+    enabled: true
+    layout:
+      position: beforeBody
+      priority: 10
+  - source: "./local-plugins/content-meta"
+    enabled: true
+    layout:
+      position: beforeBody
+      priority: 20
+  - source: "./local-plugins/content-header"
+    enabled: true
+    options:
+      baseUrl: "https://github.com/alemsabic/stilistik-regeln/blob/main"
+      showTags: true
+    layout:
+      position: beforeBody
+      priority: 25
+      condition: not-index
+  - source: "@quartz-community/tag-list"
+    enabled: false
+    layout:
+      position: beforeBody
+      priority: 30
+  - source: "@quartz-community/page-title"
+    enabled: true
+    layout:
+      position: left
+      priority: 10
+      condition: not-index
+  - source: "./local-plugins/tagline"
+    enabled: true
+    layout:
+      position: left
+      priority: 20
+      condition: not-index
+  # Index-only hero: same PageTitle component as the sidebar, repositioned to the top of the
+  # center column since the sidebar is hidden on index (see custom.scss's
+  # body[data-slug="index"] block). Priority is negative so it renders before the
+  # Search+Darkmode toolbar (priority 10) in the same beforeBody position.
+  - source: "@quartz-community/page-title"
+    enabled: true
+    layout:
+      position: beforeBody
+      priority: -2
+      condition: is-index
+  - source: "./local-plugins/tagline"
+    enabled: true
+    layout:
+      position: beforeBody
+      priority: -1
+      condition: is-index
+  - source: "@quartz-community/darkmode"
+    enabled: true
+    layout:
+      position: beforeBody
+      priority: 20
+      group: toolbar
+  - source: "@quartz-community/reader-mode"
+    enabled: false
+    layout:
+      position: left
+      priority: 35
+      group: toolbar
+  - source: "@quartz-community/breadcrumbs"
+    enabled: true
+    layout:
+      position: beforeBody
+      priority: 5
+      condition: not-index
+  - source: "./local-plugins/recent-notes"
+    enabled: true
+    options:
+      limit: 10
+      showTags: false
+      linkToMore: false
+    layout:
+      position: afterBody
+      priority: 5
+  # New local plugin (not a fork): alphabetical "phone book" index of every published note,
+  # index-page only (ported from ale.ms's local-plugins/site-index).
+  - source: "./local-plugins/site-index"
+    enabled: true
+    layout:
+      position: afterBody
+      priority: 6
+  - source: "@quartz-community/comments"
+    enabled: false # disabled until giscus is freshly registered against stilistik-site (see bootstrap.md)
+    options:
+      provider: giscus
+      options:
+        repo: alemsabic/stilistik-site
+        repoId: TODO
+        category: General
+        categoryId: TODO
+        mapping: pathname
+        strict: false
+        reactionsEnabled: true
+        inputPosition: bottom
+        lang: de
+        lightTheme: light
+        darkTheme: dark
+        themeUrl: https://stilistik.org/static/giscus
+    layout:
+      position: afterBody
+      priority: 10
+  - source: "./local-plugins/site-scripts"
+    enabled: true
+    layout:
+      position: afterBody
+      priority: 90
+  - source: "./local-plugins/footer"
+    enabled: true
+    options:
+      links: {}
+    layout:
+      position: footer
+      priority: 50
+  - source: "@quartz-community/spacer"
+    enabled: true
+    options: {}
+    order: 25
+    layout:
+      position: left
+      priority: 25
+      display: mobile-only
+  - source: "@quartz-community/bases-page"
+    enabled: true
+    options: {}
+    order: 50
+  - source: "@quartz-community/note-properties"
+    enabled: true
+    # Load-bearing, not optional: this plugin registers remarkFrontmatter itself (this v5
+    # ecosystem has no separate FrontMatter plugin) — disabling it breaks frontmatter parsing
+    # entirely (title/tags/aliases extraction), which silently killed all tag-page generation
+    # when tried. Its *component* (the visible Properties panel) is still excluded on content
+    # pages below — v4 never showed that panel and ContentHeader already covers tags there.
+    options:
+      includeAll: false
+      includedProperties:
+        - description
+        - tags
+        - aliases
+      excludedProperties: []
+      hidePropertiesView: false
+      delimiters: ---
+      language: yaml
+    order: 5
+    layout:
+      position: beforeBody
+      priority: 15
+      display: all
+layout:
+  groups:
+    toolbar:
+      priority: 1
+      direction: row
+      gap: 0.5rem
+  byPageType:
+    "404":
+      positions:
+        beforeBody: []
+        left: []
+        right: []
+    content:
+      exclude:
+        - "@quartz-community/article-title" # full source string required — see extractPluginName gotcha in upgrade.md
+        - content-meta # local source now — basename form, not the old npm-scoped string
+        - "@quartz-community/note-properties" # its component only — plugin itself stays enabled (frontmatter parsing); v4 never showed this panel, ContentHeader already covers tags on content pages
+    folder:
+      exclude:
+        - "@quartz-community/reader-mode"
+        - "@quartz-community/comments"
+        - content-header
+      positions:
+        right: []
+    tag:
+      exclude:
+        - "@quartz-community/reader-mode"
+        - "@quartz-community/comments"
+        - content-header
+      positions:
+        right: []
+    canvas:
+      exclude:
+        - "@quartz-community/comments"
+    bases:
+      exclude:
+        - "@quartz-community/comments"
+      positions:
+        right: []

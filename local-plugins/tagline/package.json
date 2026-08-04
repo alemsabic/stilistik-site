@@ -1,0 +1,79 @@
+{
+  "name": "@gpunkt/tagline",
+  "version": "0.1.0",
+  "description": "gpunkt.org's sidebar tagline text.",
+  "type": "module",
+  "license": "MIT",
+  "private": true,
+  "keywords": [
+    "quartz",
+    "quartz-plugin",
+    "component"
+  ],
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./components": {
+      "types": "./dist/components/index.d.ts",
+      "import": "./dist/components/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "preact": "^10.0.0"
+  },
+  "peerDependenciesMeta": {
+    "preact": {
+      "optional": false
+    }
+  },
+  "dependencies": {
+    "@quartz-community/types": "^0.2.1",
+    "@quartz-community/utils": "^0.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.0",
+    "preact": "^10.28.2",
+    "sass": "^1.97.3",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.3"
+  },
+  "quartz": {
+    "name": "tagline",
+    "displayName": "Tagline",
+    "category": "component",
+    "version": "1.0.0",
+    "quartzVersion": ">=5.0.0",
+    "dependencies": [],
+    "defaultOrder": 16,
+    "defaultEnabled": true,
+    "defaultOptions": {},
+    "components": {
+      "Tagline": {
+        "displayName": "Tagline",
+        "defaultPosition": "left",
+        "defaultPriority": 20
+      }
+    }
+  },
+  "engines": {
+    "node": ">=22",
+    "npm": ">=10.9.2"
+  }
+}

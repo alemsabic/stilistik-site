@@ -1,0 +1,101 @@
+{
+  "version": "1.0.0",
+  "plugins": {
+    "citations": {
+      "source": "./local-plugins/citations",
+      "resolved": "/Users/alemsabic/Desktop/stilistik.org/local-plugins/citations",
+      "commit": "local",
+      "installedAt": "2026-08-04T09:48:00.255Z"
+    },
+    "content-header": {
+      "source": "./local-plugins/content-header",
+      "resolved": "/Users/alemsabic/Desktop/stilistik.org/local-plugins/content-header",
+      "commit": "local",
+      "installedAt": "2026-08-04T09:48:00.256Z"
+    },
+    "content-index": {
+      "source": "./local-plugins/content-index",
+      "resolved": "/Users/alemsabic/Desktop/stilistik.org/local-plugins/content-index",
+      "commit": "local",
+      "installedAt": "2026-08-04T09:48:00.255Z"
+    },
+    "content-meta": {
+      "source": "./local-plugins/content-meta",
+      "resolved": "/Users/alemsabic/Desktop/stilistik.org/local-plugins/content-meta",
+      "commit": "local",
+      "installedAt": "2026-08-04T09:48:00.256Z"
+    },
+    "folder-page": {
+      "source": "./local-plugins/folder-page",
+      "resolved": "/Users/alemsabic/Desktop/stilistik.org/local-plugins/folder-page",
+      "commit": "local",
+      "installedAt": "2026-08-04T09:48:00.255Z"
+    },
+    "footer": {
+      "source": "./local-plugins/footer",
+      "resolved": "/Users/alemsabic/Desktop/stilistik.org/local-plugins/footer",
+      "commit": "local",
+      "installedAt": "2026-08-04T09:48:00.256Z"
+    },
+    "github-flavored-markdown": {
+      "source": "./local-plugins/github-flavored-markdown",
+      "resolved": "/Users/alemsabic/Desktop/stilistik.org/local-plugins/github-flavored-markdown",
+      "commit": "local",
+      "installedAt": "2026-08-04T09:48:00.254Z"
+    },
+    "graph": {
+      "source": "./local-plugins/graph",
+      "resolved": "/Users/alemsabic/Desktop/stilistik.org/local-plugins/graph",
+      "commit": "local",
+      "installedAt": "2026-08-04T09:48:00.255Z"
+    },
+    "heading-badges": {
+      "source": "./local-plugins/heading-badges",
+      "resolved": "/Users/alemsabic/Desktop/stilistik.org/local-plugins/heading-badges",
+      "commit": "local",
+      "installedAt": "2026-08-04T09:48:00.255Z"
+    },
+    "im-fokus": {
+      "source": "./local-plugins/im-fokus",
+      "resolved": "/Users/alemsabic/Desktop/stilistik.org/local-plugins/im-fokus",
+      "commit": "local",
+      "installedAt": "2026-08-04T09:48:00.255Z"
+    },
+    "recent-notes": {
+      "source": "./local-plugins/recent-notes",
+      "resolved": "/Users/alemsabic/Desktop/stilistik.org/local-plugins/recent-notes",
+      "commit": "local",
+      "installedAt": "2026-08-04T09:48:00.256Z"
+    },
+    "site-index": {
+      "source": "./local-plugins/site-index",
+      "resolved": "/Users/alemsabic/Desktop/stilistik.org/local-plugins/site-index",
+      "commit": "local",
+      "installedAt": "2026-08-04T09:48:00.256Z"
+    },
+    "site-scripts": {
+      "source": "./local-plugins/site-scripts",
+      "resolved": "/Users/alemsabic/Desktop/stilistik.org/local-plugins/site-scripts",
+      "commit": "local",
+      "installedAt": "2026-08-04T09:48:00.256Z"
+    },
+    "table-of-contents": {
+      "source": "./local-plugins/table-of-contents",
+      "resolved": "/Users/alemsabic/Desktop/stilistik.org/local-plugins/table-of-contents",
+      "commit": "local",
+      "installedAt": "2026-08-04T09:48:00.255Z"
+    },
+    "tag-page": {
+      "source": "./local-plugins/tag-page",
+      "resolved": "/Users/alemsabic/Desktop/stilistik.org/local-plugins/tag-page",
+      "commit": "local",
+      "installedAt": "2026-08-04T09:48:00.255Z"
+    },
+    "tagline": {
+      "source": "./local-plugins/tagline",
+      "resolved": "/Users/alemsabic/Desktop/stilistik.org/local-plugins/tagline",
+      "commit": "local",
+      "installedAt": "2026-08-04T09:48:00.256Z"
+    }
+  }
+}

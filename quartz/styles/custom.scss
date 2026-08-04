@@ -1,0 +1,1412 @@
+@use "./variables.scss" as *;
+
+// Search bar styling - make search take full width
+.search {
+  max-width: none !important;
+  width: 100% !important;
+}
+
+// Search button: @quartz-community/search ships transparent background + a 1px border by
+// default. Matches ale.ms's own fix (custom.scss, "Search button" section) — filled background
+// via the same lightgray/light color-mix instead of a border-only look.
+.search > .search-button {
+  background-color: color-mix(in srgb, var(--lightgray) 60%, var(--light));
+  border: none;
+}
+
+// Burger button - remove left padding
+.explorer .mobile-explorer {
+  padding-left: 0px !important;
+}
+
+// Graph component bottom margin (gap to Backlinks)
+.graph {
+  margin-bottom: 2rem !important;
+}
+
+// Remove border around the graph (overrides @quartz-community/graph default)
+.graph > .graph-outer {
+  border: none !important;
+}
+
+// Backlinks component bottom margin
+.backlinks {
+  margin-bottom: 2rem !important;
+}
+
+// Giscus comments bottom margin
+.giscus {
+  margin-bottom: 2rem !important;
+}
+
+// Page max width. Canvas pages (JSON Canvas / Obsidian .canvas) get their own
+// full-bleed layout from @quartz-community/canvas-page's frame CSS — excluding
+// data-frame="canvas" here keeps that intact instead of clipping it to 1280px.
+.page:not([data-frame="canvas"]) {
+  max-width: 1280px !important;
+}
+
+// @quartz-community/canvas-page's .canvas-frame ships as box-sizing: content-box
+// with width: 100%. When its own CSS adds padding-left on .canvas-sidebar-open
+// (to make room for the slide-out sidebar), that padding is added on top of the
+// 100% width instead of being carved out of it, overflowing the viewport by
+// exactly the sidebar's width and producing a second, invisible-until-you-scroll
+// horizontal scrollbar. Ported from ale.ms, confirmed there via devtools before
+// this fix (offsetWidth 1900 vs a 1600px viewport, i.e. +300px = --canvas-sidebar-width).
+.page[data-frame="canvas"] .canvas-frame {
+  box-sizing: border-box;
+}
+
+// The actual double-scrollbar culprit (found by hand in devtools on ale.ms): the
+// vendor's own canvas-sidebar override re-declares .explorer-content as
+// overflow-y: auto, and stock Quartz's OverflowList truncation (base.scss's
+// `ul.overflow`, used by the Explorer's file-tree <ul> once it's long enough to
+// truncate) *also* sets overflow-y: auto on that inner <ul> — two independently-
+// scrollable nested containers of almost the same height, each rendering its own
+// scrollbar. The inner ul.overflow is the one that should scroll; drop it here on
+// the outer .explorer-content. Matches the vendor's own selector specificity so
+// it wins regardless of injection order.
+.page[data-frame="canvas"] .canvas-sidebar .explorer .explorer-content {
+  overflow-y: hidden !important;
+}
+
+// Bases pages (.base tables from @quartz-community/bases-page) live from width —
+// no cap at all, infinite/edge-to-edge like the canvas pages.
+.page:has(.bases-page) {
+  max-width: none !important;
+}
+
+// Bases view meta ("Showing X of Y") — darker than the vendor's default --gray.
+.bases-view-meta {
+  color: var(--darkgray);
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+}
+
+// Bases page — add top spacing to match other page types.
+.bases-page {
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  overflow: hidden;
+  margin-top: 2rem;
+}
+
+// Breadcrumb container margin
+.breadcrumb-container {
+  margin-top: 1.5rem !important;
+}
+
+// Article title additional margin
+.article-title {
+  margin-top: 4rem !important;
+}
+
+// Content meta font size and color
+.content-meta {
+  font-size: 0.9rem !important;
+  color: var(--gray) !important;
+}
+
+// Page title font size - responsive
+.page-title {
+  font-size: 1.95rem !important; // Mobile
+  font-family: var(--headerFont) !important;
+}
+
+@media (min-width: 800px) {
+  .page-title {
+    font-size: 3.8rem !important; // Desktop
+    line-height: 0.8 !important;
+  }
+}
+
+.sidebar.left .page-title {
+  @media (max-width: 800px) {
+    align-self: center;
+  }
+}
+
+// Remove gap from sidebars by default
+.page > #quartz-body .sidebar {
+  gap: 0 !important;
+}
+
+// Right sidebar: add gap between Graph, TOC, Backlinks
+.page > #quartz-body .sidebar.right {
+  gap: 1.2rem !important;
+}
+
+// Desktop: H1 in articles larger font size
+// NOTE: v5's content-page/folder-page/tag-page plugins hardcode an extra
+// `div.markdown-preview-view.markdown-rendered` wrapper between <article> and its content (not
+// present on v4), so plain `article > h1` no longer matches — updated to skip exactly that one
+// level rather than dropping to a bare descendant selector, which would also incidentally match
+// any h1 nested deeper in the document (e.g. inside a transcluded embed). Same fix as ale.ms.
+@media (min-width: 800px) {
+  .page article > div.markdown-preview-view > h1 {
+    font-size: 4rem;
+    line-height: 0.9;
+    margin-left: -25px;
+  }
+}
+
+// Page title and breadcrumb links same color as body text
+.page-title a,
+.breadcrumb-container a {
+  color: var(--bodyText) !important;
+}
+
+// H1 font-weight
+h1 {
+  font-weight: 900 !important;
+}
+
+// Light theme: alle Überschriften + Page-Title in Blau
+[saved-theme="light"] h1,
+[saved-theme="light"] h2,
+[saved-theme="light"] h3,
+[saved-theme="light"] h4,
+[saved-theme="light"] h5,
+[saved-theme="light"] h6,
+[saved-theme="light"] .page-title a {
+  color: #3347cb !important;
+}
+
+// Dark theme: alle Überschriften + Page-Title in Orange
+[saved-theme="dark"] h1,
+[saved-theme="dark"] h2,
+[saved-theme="dark"] h3,
+[saved-theme="dark"] h4,
+[saved-theme="dark"] h5,
+[saved-theme="dark"] h6,
+[saved-theme="dark"] .page-title a {
+  color: #ee683d !important;
+}
+
+// Page title link font weight to match headings
+.page-title a {
+  font-weight: 900 !important;
+}
+
+// Additional margin for h2 and h3 within content
+article h2 {
+  margin-top: 3.9rem !important;
+  font-weight: 500;
+  font-size: 1.8rem;
+  border-bottom: 2px solid;
+  padding-bottom: 0.25rem;
+}
+
+article h2:has(+ ul) {
+  margin-bottom: 2rem !important;
+}
+
+// Exception: h2 following h1 should have no margin
+article.first-page h1 + h2 {
+  margin-top: 0 !important;
+  font-family: var(--bodyFont) !important;
+  font-weight: 500;
+  font-size: 1.8rem;
+}
+
+article h3 {
+  margin-top: 3.9rem !important;
+}
+
+article h4 {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+// Footer links uppercase and font size
+footer a {
+  text-transform: uppercase !important;
+  font-size: 0.9rem !important;
+}
+
+// Normalize all links to font-weight 400
+a {
+  font-weight: 400 !important;
+}
+
+// Aside element font size
+aside {
+  font-size: 0.85rem !important;
+}
+
+// Font smoothing for dark theme
+[saved-theme="dark"] {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// Noise texture overlay - light theme
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url("/static/noise.png");
+  background-repeat: repeat;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+// Noise texture overlay - dark theme
+[saved-theme="dark"] body::before {
+  opacity: 0.5;
+}
+
+// ============================================
+// GLOBAL LIGHT THEME - BOOK AESTHETIC
+// ============================================
+
+// List markers color
+ul ::marker,
+ol ::marker {
+  color: var(--darkgray) !important;
+}
+
+// HR element dashed line styling
+hr {
+  border: none !important;
+  border-top: 1px dashed var(--darkgray) !important;
+  margin: 2.5rem 0 !important;
+  background: none !important;
+}
+
+// Mobile sticky header with transparent background
+@media (max-width: 800px) {
+  .page #quartz-body .sidebar.left:has(.explorer) {
+    opacity: 90%;
+  }
+
+  // Light mode: remove background completely
+  [saved-theme="light"] .page #quartz-body .sidebar.left:has(.explorer) {
+    background-color: transparent !important;
+  }
+}
+
+// Add margin to flex-component in popover previews for better spacing
+.popover .popover-inner .flex-component {
+  margin-top: 1rem !important;
+}
+
+// Tag link font size and padding
+a.internal.tag-link {
+  font-size: 0.85rem !important;
+  padding: 0.2rem 0.3rem !important;
+}
+
+// Light theme: schwarzer Hintergrund mit 10% opacity
+[saved-theme="light"] a.internal.tag-link {
+  background-color: var(--lightgray) !important;
+}
+
+// Dark theme: weißer Hintergrund mit 10% opacity
+[saved-theme="dark"] a.internal.tag-link {
+  background-color: var(--lightgray) !important;
+}
+
+// Explorer folder left border with darker styling
+.explorer-content .folder-outer > ul {
+  border-left: none !important;
+}
+
+// Folder container font size and styling
+.folder-container div > a {
+  font-size: 1rem !important;
+  opacity: 0.75;
+  transition: opacity 0.2s ease;
+  color: var(--dark) !important;
+}
+
+.folder-container div > a:hover {
+  opacity: 1 !important;
+}
+
+// Folder icon styling
+.folder-icon {
+  opacity: 0.75;
+  transition: opacity 0.2s ease;
+  color: var(--dark) !important;
+}
+
+.folder-container div > a:hover .folder-icon {
+  opacity: 1 !important;
+}
+
+// Explorer content links font size and hover effect
+.explorer-content ul li > a {
+  font-size: 1rem !important;
+  opacity: 0.35;
+  transition: opacity 0.2s ease;
+  color: var(--dark) !important;
+}
+
+.explorer-content ul li > a:hover {
+  opacity: 1 !important;
+}
+
+// Active page link in the Explorer tree: needs !important on color too, since it competes
+// against the base rule above's `color: var(--dark) !important` at equal-or-lower
+// specificity — a non-important color here would always lose the cascade regardless of the
+// .active class's extra specificity, which is why this previously had no visible effect.
+.explorer-content ul li > a.active {
+  opacity: 1 !important;
+  color: var(--tertiary) !important;
+}
+
+// Explorer spacing between lists and items
+.explorer-content ul {
+  margin-top: 0.15rem !important;
+  margin-bottom: 0.15rem !important;
+}
+
+.explorer-content ul li {
+  margin-top: 0.25rem !important;
+  margin-bottom: 0.25rem !important;
+  line-height: 1.1rem;
+}
+
+// Table of Contents links font size and line-height
+.toc ul li a {
+  font-size: 0.85rem !important;
+}
+
+.toc-content li {
+  line-height: 1.1rem !important;
+}
+
+// Tagline (below page title, left sidebar). Ported 1:1 from ale.ms's custom.scss.
+.tagline {
+  font-size: 1.25rem;
+  margin-top: 0.5rem;
+  margin-bottom: 2.5rem;
+  line-height: 1.1rem;
+  font-family: var(--titleFont);
+}
+
+// v5's quartz/styles/base.scss changed `.desktop-only` from v4's `display: initial` to
+// `display: contents`. `contents` makes the element generate no box of its own, so its own
+// margin/padding/etc. stop applying — which silently ate .tagline's margin-top/margin-bottom
+// above, since Tagline.tsx puts both classes on the same <div>. Restoring a real box here
+// (higher specificity than base.scss's `.desktop-only` alone) rather than patching the core
+// scaffold file. Repeats the same max-width:800px hide-on-mobile behavior from base.scss so
+// mobile visibility is unaffected.
+.tagline.desktop-only {
+  display: block;
+
+  @media (max-width: 800px) {
+    display: none;
+  }
+}
+
+// Mobile: show sidebar Tagline inline next to PageTitle instead of hiding it (mirrors quartz
+// docs' toolbar flex pattern — flex-grow fills the row, pushed to the right of the title).
+// Higher specificity than the rule above wins regardless of source order.
+.sidebar.left .tagline.desktop-only {
+  @media (max-width: 800px) {
+    // block, not flex: Tagline.tsx renders <a>{linkText}</a>{text} as sibling nodes, and a flex
+    // container splits them into separate flex items with their own line boxes (link and text
+    // stop flowing as one run of text, breaking the space between them and how they wrap
+    // together). A block element still becomes a flex *item* of the parent .sidebar.left row —
+    // it just keeps normal inline flow for its own children.
+    display: block;
+    flex-grow: 1;
+    place-self: center center;
+    text-align: right;
+    // .tagline's base rule sets an asymmetric 0.5rem/2.5rem top/bottom margin for the desktop
+    // stacked layout; align-self:center centers the full margin box, so that asymmetry alone
+    // pushes the text visibly off the row's vertical center relative to the title. Reset it here.
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+// Tagline styling
+.tagline a {
+  text-decoration: none !important;
+}
+
+// Explorer and Table of Contents heading styling
+button.mobile-explorer,
+button.desktop-explorer,
+button.toc-header {
+  color: var(--darkgray) !important;
+}
+
+button.mobile-explorer h2,
+button.desktop-explorer h2 {
+  font-weight: 700 !important;
+  font-family: var(--bodyFont) !important;
+  text-shadow: none !important;
+}
+
+button.toc-header h3 {
+  font-weight: 700 !important;
+  font-family: var(--bodyFont) !important;
+}
+
+// Graph and Backlinks heading styling
+.graph > h3,
+.backlinks > h3 {
+  font-weight: 700 !important;
+  font-family: var(--bodyFont) !important;
+}
+
+// Rückseite heading alignment
+h2#des-zettels-rückseite {
+  text-align: right !important;
+}
+
+// Increase gap between center and sidebars
+
+@media (min-width: 1200px) {
+  .page > #quartz-body {
+    grid-template: "grid-sidebar-left grid-header grid-sidebar-right" "grid-sidebar-left grid-center grid-sidebar-right" "grid-sidebar-left grid-footer grid-sidebar-right"/320px auto 320px;
+    gap: 20px;
+    display: grid;
+  }
+}
+
+// Canvas pages are a fixed 100vh viewport that pan/zoom internally and have their
+// own sidebar scroll region (.explorer-content inside .canvas-sidebar) — the outer
+// document itself should never need to scroll. The global ::-webkit-scrollbar
+// styling below forces classic, space-reserving scrollbars everywhere (stock
+// Quartz relies on the OS's default overlay scrollbars instead, which don't
+// visually stack). With classic scrollbars forced, any stray overflow on
+// html/body renders as a second, permanent scrollbar sitting right next to the
+// sidebar's own file-list one. Pinning the document to the viewport rules that
+// out entirely, regardless of what's causing the stray overflow underneath.
+// Ported from ale.ms.
+html:has(.page[data-frame="canvas"]),
+body:has(.page[data-frame="canvas"]) {
+  overflow: hidden !important;
+}
+
+// ScrollBar - updated colors for new design
+::-webkit-scrollbar {
+  width: 9px;
+  height: 8px;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+[saved-theme="light"] ::-webkit-scrollbar-thumb:active {
+  background-color: #ee683d;
+}
+
+// Dark theme scrollbar
+[saved-theme="dark"] ::-webkit-scrollbar {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+[saved-theme="dark"] ::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+[saved-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+[saved-theme="dark"] ::-webkit-scrollbar-thumb:active {
+  background-color: #39ff14;
+}
+
+// Override strong color - bold weight is sufficient emphasis (no color change needed)
+.page article p > strong {
+  color: inherit !important;
+  font-weight: 700;
+}
+
+// Override explorer font - folder names and buttons should use body font, not header font
+.folder-container div > a,
+.folder-container div > button {
+  font-family: var(--bodyFont) !important;
+}
+
+// Remove background color and fixed line-height from internal links
+a.internal {
+  background-color: transparent;
+  padding: 0;
+  line-height: inherit;
+}
+
+// ============================================
+// CONTENT TYPE STYLING - DICTIONARY ENTRIES
+// ============================================
+
+// Dictionary Entry: Old dictionary aesthetic with Cardo font
+// Everything inline, dense block layout like printed dictionaries - no paragraph breaks
+article.dictionary-entry,
+article.first-page {
+  line-height: 1.12;
+  font-size: 1.1rem; // Mobile
+  @media (min-width: 800px) {
+    font-size: 1.2rem;
+  }
+  // Override any default article styling
+  * {
+    line-height: inherit !important;
+  }
+
+  // Lists within dictionary entries
+  ul {
+    list-style: none !important;
+    padding-left: 0 !important;
+    margin-top: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
+
+    li {
+      margin-bottom: 2rem !important;
+    }
+  }
+}
+
+// ============================================
+// DICTIONARY ENTRY - FOOTNOTES STYLING
+// ============================================
+
+// Footnotes styling for dictionary entries - compact, book-like layout
+article.dictionary-entry .footnotes {
+  margin-top: 0.75rem !important;
+  padding-top: 0.75rem !important;
+  font-size: 0.9rem !important;
+  text-align: left !important;
+  border-top: none !important;
+  position: relative;
+
+  // Shorter border-top (1/5 width) using ::before
+  // &::before {
+  //   content: "";
+  //   position: absolute;
+  //   top: 0;
+  //   left: 0;
+  //   width: 20%;
+  //   height: 1px;
+  //   background-color: var(--lightgray);
+  // }
+
+  ol {
+    padding-left: 1rem !important; // Reduced padding for compact layout
+    margin: 0 !important;
+
+    // Footnote markers color - third accent color
+    ::marker {
+      color: #ee683d !important;
+    }
+    [saved-theme="dark"] & ::marker {
+      color: #39ff14 !important;
+    }
+  }
+
+  li {
+    margin-bottom: 0.5rem !important;
+
+    p {
+      margin: 0 !important;
+      text-align: left !important; // Override justify for footnotes
+    }
+  }
+}
+
+// Superscript footnote links in dictionary entries - third accent color
+article.dictionary-entry sup a {
+  font-size: 0.75rem !important;
+  text-decoration: none !important;
+}
+
+[saved-theme="light"] article.dictionary-entry sup a {
+  color: #ee683d !important;
+}
+
+[saved-theme="dark"] article.dictionary-entry sup a {
+  color: #39ff14 !important;
+}
+
+// Highlight footnote when clicked (using :target pseudo-class AND .footnote-highlighted class for SPA)
+article.dictionary-entry .footnotes li:target,
+article.dictionary-entry .footnotes li.footnote-highlighted {
+  background-color: var(--highlight);
+  border-radius: 4px;
+  padding: 0.5rem;
+  margin-left: -0.5rem;
+  transition: background-color 0.3s ease;
+}
+
+// Hide footnote backlinks in dictionary entries (book-like appearance, no back navigation needed)
+article.dictionary-entry .data-footnote-backref {
+  display: none !important;
+}
+
+// ============================================
+// REFERENCES / BIBLIOGRAPHY STYLING (GLOBAL)
+// ============================================
+
+// Individual bibliography entries
+.csl-entry {
+  font-size: 0.9rem;
+
+  // Hanging indent for citations (classic bibliography style)
+  padding-left: 2rem !important;
+  text-indent: -2rem !important;
+  margin-bottom: 0.25rem;
+}
+
+// Disable popovers for all footnote links (sup a)
+sup a {
+  pointer-events: auto !important;
+
+  &::after {
+    pointer-events: none !important;
+  }
+}
+
+// Hide popover when hovering over footnote links
+sup:hover + .popover,
+sup a:hover ~ .popover {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+// Hide footnote backlinks (book-like appearance)
+article .data-footnote-backref {
+  display: none !important;
+}
+
+// ============================================
+// GLOBAL GRAPH ICON BUTTON
+// ============================================
+
+.graph > .graph-outer > .global-graph-icon {
+  opacity: 1 !important;
+  width: 32px !important;
+  height: 32px !important;
+  transition: transform 0.2s ease !important;
+
+  &:hover {
+    transform: scale(1.15) !important;
+    background-color: inherit !important;
+  }
+}
+
+[saved-theme="light"] .graph > .graph-outer > .global-graph-icon {
+  color: #ee683d;
+  background-color: rgba(238, 104, 61, 0.12) !important;
+}
+
+[saved-theme="dark"] .graph > .graph-outer > .global-graph-icon {
+  color: #39ff14;
+  background-color: rgba(57, 255, 20, 0.1) !important;
+}
+
+// ============================================
+// RECENT NOTES COMPONENT (Index Page)
+// ============================================
+
+/* Recent Notes: index-only component (see local-plugins/recent-notes). No margin/border of
+   its own — on the index page it sits in a grid cell next to Graph (custom.scss's
+   body[data-slug="index"] block), and needs to start flush at the same height as Graph's
+   heading; the grid's own gap handles spacing to the Site Index section below. */
+.recent-notes {
+  margin: 0;
+}
+
+.recent-notes li.recent-li {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+// Section title ("Zuletzt bearbeitet") sized identically to the H1 rule further up in this
+// file — same base line-height and the same min-width: 800px font-size/line-height jump.
+// Scoped to the section title only (`.recent-notes > h3`), not the per-entry titles nested
+// in `.section > .desc > h3 > a`, which stay at their own (smaller) size.
+.recent-notes > h3 {
+  font-size: 1.75rem;
+  line-height: 1;
+  margin: 0;
+}
+
+@media (min-width: 800px) {
+  .recent-notes > h3 {
+    font-size: 3rem;
+    line-height: 0.9;
+    margin-bottom: 2rem;
+  }
+}
+
+// ============================================
+// TAG PAGES - REMOVE LIST BULLETS
+// ============================================
+
+// Tags list on tag pages (e.g., /tags/ZK-Theorie) - remove circles
+ul.tags {
+  list-style: none !important;
+}
+
+// ============================================
+// LINK UNDERLINE - CONTENT HEADER & ARTICLES
+// ============================================
+
+// Links underlined by default, no underline on hover with transition
+
+article.dictionary-entry a {
+  text-decoration: underline !important;
+  transition: text-decoration 0.2s ease;
+}
+
+article.dictionary-entry a:hover {
+  text-decoration: none !important;
+}
+
+// Exception: Tag links should never be underlined
+a.internal.tag-link {
+  text-decoration: none !important;
+}
+
+a.internal.tag-link:hover {
+  text-decoration: none !important;
+}
+
+// ============================================
+// CITATION SPANS (Inline-Zitate)
+// ============================================
+
+[id^="citation--"] {
+  border-bottom: 1px dotted currentColor;
+  cursor: help;
+  font-size: 0.9em;
+  white-space: nowrap;
+  padding-bottom: 2px;
+  opacity: 0.55;
+  transition: opacity 0.15s;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+// ============================================
+// CITATION TOOLTIPS - CSS-ONLY
+// ============================================
+
+// Beautiful tooltips for citations using data-tooltip attribute
+// Based on rehype-citation demo: https://rehype-citation.netlify.app/tooltips
+[data-tooltip] {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+// Tooltip content (appears above the element). Background/text use the same
+// lightgray-over-light color-mix as the search bar (see top of this file) instead of a
+// hardcoded gray, so the tooltip matches the site's actual palette in both themes and
+// adapts automatically via the variables' own per-theme values — no separate
+// [saved-theme="dark"] color override needed (stacking one on top of an already-flipping
+// var() double-inverts, see custom.scss history).
+[data-tooltip]::after {
+  content: attr(data-tooltip);
+  visibility: hidden;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  z-index: 50;
+  margin-bottom: 0.5rem;
+  width: max-content;
+  max-width: 20rem;
+  transform: translateX(-50%);
+  overflow-wrap: break-word;
+  white-space: normal;
+  border-radius: 0.375rem;
+  // --lightgray is itself a low-alpha overlay color (e.g. rgba(0,0,0,.07) in light mode), and
+  // color-mix() blends alpha proportionally — mixing it in at 70% diluted the result to ~35%
+  // opacity, way too see-through for a box that floats over arbitrary body content (unlike the
+  // search bar's use of the same technique, which sits on a uniform page background where the
+  // same dilution is visually invisible). --dark is fully opaque in both themes, so mixing a
+  // small amount of it into --light gives a subtle, fully opaque, still theme-adaptive tint.
+  background-color: color-mix(in srgb, var(--dark) 8%, var(--light) 92%);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  font-size: 0.75rem;
+  line-height: 1.25rem;
+  color: var(--darkgray);
+  opacity: 0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
+  transition: opacity 0.2s;
+  pointer-events: none;
+  text-shadow: none !important;
+}
+
+// Dark mode: the light box-shadow needs more spread to read against a near-black page.
+[saved-theme="dark"] [data-tooltip]::after {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+}
+
+// Tooltip arrow (small triangle pointing down) — same background as the box above.
+[data-tooltip]::before {
+  content: "";
+  visibility: hidden;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  z-index: 50;
+  height: 0;
+  width: 0;
+  transform: translateX(-50%);
+  border: 8px solid transparent;
+  border-top-color: color-mix(in srgb, var(--lightgray) 70%, var(--light));
+  opacity: 0;
+  transition: opacity 0.2s;
+  margin-bottom: -6px;
+  pointer-events: none;
+  z-index: 51; // Über dem Shadow von ::after rendern
+}
+
+// Show tooltip on hover (no delay!)
+[data-tooltip]:hover::after,
+[data-tooltip]:hover::before {
+  visibility: visible;
+  opacity: 1;
+}
+
+// ============================================
+// CALLOUT STYLING - DEZENTER (QUELLENVERZEICHNIS)
+// ============================================
+
+.callout {
+  border: none !important;
+  border-radius: 5px;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  overflow: visible !important; // Tooltips nicht abschneiden
+}
+
+// Tooltips dürfen aus dem Callout-Content-Bereich herausragen
+.callout-content-inner {
+  overflow: visible !important;
+}
+
+// v5's callouts.scss (vendor) added a middle wrapper between .callout and
+// .callout-content-inner (.callout > .callout-content, used for the fold/collapse grid
+// animation) that v4 never had — its own overflow: hidden clips tooltips just like the two
+// rules above were already fixing for the outer/inner layers. Same v4-era fix, missing layer.
+.callout > .callout-content {
+  overflow: visible !important;
+}
+// ============================================
+// HEADING BADGES ([K], [A], etc.)
+// ============================================
+
+.heading-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.5em;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  vertical-align: middle;
+  padding: 0.2em 0.55em;
+  border-radius: 3px;
+  margin-left: 0.3em;
+  line-height: 1.6;
+  font-family: var(--bodyFont);
+  position: relative;
+  top: -0.1em;
+}
+
+[saved-theme="light"] .heading-badge {
+  background-color: rgba(51, 71, 203, 0.1);
+  color: #3347cb;
+}
+
+[saved-theme="dark"] .heading-badge {
+  background-color: rgba(238, 104, 61, 0.15);
+  color: #ee683d;
+}
+
+// ============================================
+// CALLOUT LABELS (als Pills, konsistent mit Heading Badges)
+// ============================================
+
+.callout-icon {
+  display: none;
+}
+.callout-title {
+  padding-top: 0.5rem;
+  padding-bottom: 1rem;
+
+  .callout-title-inner p {
+    font-weight: 700 !important;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    display: inline-block;
+    padding: 0.2em 0.6em;
+    border-radius: 3px;
+    margin: 0;
+  }
+}
+
+[saved-theme="light"] .callout-title .callout-title-inner p {
+  background-color: rgba(51, 71, 203, 0.1);
+  color: #3347cb !important;
+}
+
+[saved-theme="dark"] .callout-title .callout-title-inner p {
+  background-color: rgba(238, 104, 61, 0.15);
+  color: #ee683d !important;
+}
+
+// Callout content: smaller font size and line-height
+.callout-content-inner p {
+  font-size: 0.95rem;
+}
+
+// Callout citation/attribution: right-aligned (last paragraph in callout)
+.callout-content-inner > p:last-of-type:has(strong) {
+  text-align: right;
+}
+
+// Override callout colors - add more gray for subtler appearance
+.callout[data-callout] {
+  --color: var(--darkgray) !important; // Muted blue-gray (instead of bright #448aff)
+}
+
+.callout[data-callout="affirmativ"],
+.callout[data-callout="affirmativ-ep"],
+.callout[data-callout="kritisch"] {
+  background-color: var(--lightgray) !important;
+}
+
+.callout[data-callout="info"],
+.callout[data-callout="todo"] {
+  --color: var(--darkgray) !important; // Muted teal-gray (instead of bright #00b8d4)
+}
+
+// ============================================
+// DROP CAP — erster Absatz nach Badge-Headings ([K], [A])
+// Nutzt :has() — greift nur wo ein heading-badge vorhanden ist
+// ============================================
+
+h2:has(.heading-badge) + p::first-letter {
+  float: left;
+  font-size: 3.4em;
+  line-height: 0.82;
+  margin-right: 0.07em;
+  margin-bottom: -0.05em;
+  font-family: var(--headerFont);
+  font-weight: 900;
+}
+
+[saved-theme="light"] h2:has(.heading-badge) + p::first-letter {
+  color: var(--lightgray);
+}
+
+[saved-theme="dark"] h2:has(.heading-badge) + p::first-letter {
+  color: var(--lightgray);
+}
+
+// ============================================
+// IM FOKUS — hervorgehobener Mechanismus
+// ============================================
+
+article ul li.li-im-fokus {
+  background-color: var(--lightgray);
+  border-left: 2px solid;
+  border-radius: 0 4px 4px 0;
+  padding: 0.5rem 0.75rem;
+  list-style: none;
+}
+
+[saved-theme="light"] article ul li.li-im-fokus {
+  border-left-color: #3347cb;
+}
+
+[saved-theme="dark"] article ul li.li-im-fokus {
+  border-left-color: #ee683d;
+}
+
+.fokus-marker {
+  display: inline-block;
+  font-size: 0.7em;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.15em 0.5em;
+  border-radius: 3px;
+  margin-left: 0.3em;
+  vertical-align: middle;
+  position: relative;
+  top: -0.1em;
+  font-family: var(--bodyFont);
+}
+
+[saved-theme="light"] .fokus-marker {
+  background-color: rgba(51, 71, 203, 0.1);
+  color: #3347cb;
+}
+
+[saved-theme="dark"] .fokus-marker {
+  background-color: rgba(238, 104, 61, 0.15);
+  color: #ee683d;
+}
+
+// ============================================================================
+// Ported from ale.ms (full homepage-parity port, 2026-07-31)
+// ============================================================================
+
+// Bases/Canvas file badges — mark these special page types wherever their links appear in the
+// Explorer tree, the homepage Site Index, and the homepage Recent Notes list. Their slugs keep
+// the source extension (e.g. "quellen/quellen-index.base",
+// "referenzen/zettelkasten-aufbau.canvas"), so a plain href-suffix selector is enough to target
+// them — no component fork needed.
+.explorer-content a.nav-file-title[href*=".base"]::after,
+.site-index a.internal[href*=".base"]::after,
+.recent-notes a.internal[href*=".base"]::after,
+.explorer-content a.nav-file-title[href*=".canvas"]::after,
+.site-index a.internal[href*=".canvas"]::after,
+.recent-notes a.internal[href*=".canvas"]::after {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 14px;
+  margin-left: 6px;
+  padding: 3px 3px;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  line-height: 1; // a.internal sets line-height: inherit, which is much taller in prose
+  // contexts (Site Index) than in the Explorer list — pin it so the badge stays circular in both.
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  vertical-align: middle;
+  background: rgba(139, 72, 64, 0.14); // --secondary at low opacity (same hex in both themes)
+  color: var(--secondary);
+}
+
+.explorer-content a.nav-file-title[href*=".base"]::after,
+.site-index a.internal[href*=".base"]::after,
+.recent-notes a.internal[href*=".base"]::after {
+  content: "B";
+}
+
+.explorer-content a.nav-file-title[href*=".canvas"]::after,
+.site-index a.internal[href*=".canvas"]::after,
+.recent-notes a.internal[href*=".canvas"]::after {
+  content: "C";
+}
+
+// Reclaim the right sidebar's grid column on desktop for bases pages (the right
+// sidebar itself is already excluded via quartz.config.yaml's layout.byPageType.bases
+// positions), so the table gets the full width instead of a wasted empty column.
+@media all and ($desktop) {
+  .page:has(.bases-page) > #quartz-body {
+    grid-template-columns: #{$sidePanelWidth} auto;
+    grid-template-areas:
+      "grid-sidebar-left grid-header"
+      "grid-sidebar-left grid-center"
+      "grid-sidebar-left grid-footer";
+  }
+}
+
+// Index page: single-column layout (body[data-slug="index"] only)
+// ============================================================================
+//
+// See docs/superpowers/specs/2026-07-28-index-page-redesign-design.md §1 and the plan's
+// "Design refinement" note: the grid collapses fully (like the built-in full-width frame)
+// so the hero sits flush at the true left edge with no dead gutters. Everything except
+// .site-index gets its own explicit max-width below, so it reads at the same comfortable
+// measure as a normal content page despite the grid itself now being full-width.
+
+body[data-slug="index"] {
+  .page > #quartz-body {
+    grid-template-columns: auto;
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+      "grid-header"
+      "grid-center"
+      "grid-footer";
+
+    @media all and ($tablet) {
+      grid-template-columns: auto;
+    }
+  }
+
+  .sidebar.left,
+  .sidebar.right {
+    display: none !important;
+  }
+
+  // Hero stays a compact, left-aligned text block — the one section that does NOT take on
+  // the shared wide width below (see the .page-footer grid further down). Left-pinned, not
+  // centered: with the sidebars gone the page is up to 1500px wide, and a 46rem block
+  // glued to the left edge reads as an intentional top-left title, matching where a page
+  // title conventionally sits — a centered 46rem block on a 1500px page read as adrift.
+  .page-header {
+    max-width: 46rem;
+    margin-left: 0;
+    margin-top: 3rem;
+  }
+
+  // Hero: Title + Tagline, now living in .page-header instead of the sidebar.
+  .page-header .page-title {
+    font-size: 4rem !important;
+  }
+
+  .page-header .tagline {
+    font-size: 1.5rem !important;
+  }
+
+  // Tagline.tsx hardcodes "desktop-only" on its root div, and base custom.scss hides
+  // .tagline.desktop-only under 800px — correct for the sidebar instance, but the hero above
+  // needs its Tagline instance to show on mobile too ("Title + Tagline + Search"). Scoped to
+  // .page-header so the (not-index-gated, and thus absent here anyway) sidebar instance
+  // elsewhere on the site is untouched.
+  .page-header .tagline.desktop-only {
+    display: block;
+  }
+
+  // Prominent search: larger type, more breathing room. No max-width — the bar stretches
+  // all the way to the darkmode toggle instead of stopping short and leaving the toggle
+  // stranded in open space.
+  .search-button {
+    padding: 0.9rem 1.3rem !important;
+  }
+
+  .search-button > p {
+    font-size: 1.2rem !important;
+  }
+
+  // Toolbar buttons (search + darkmode) get a bit more presence on desktop, homepage only;
+  // left at the plugins' own compact defaults everywhere else and on mobile where space is
+  // tight.
+  @media (min-width: 800px) {
+    .search-button {
+      height: 3rem;
+    }
+
+    // .darkmode's own bundled CSS (@quartz-community/darkmode) ships a 20x32px button with a
+    // 20px icon centered via top: calc(50% - 10px). Enlarging the icon to 32px needs the
+    // button widened to match (else the icon overflows the 20px-wide hit area) and the
+    // centering offset recalculated for the new icon height (50% - half of 32px, not half of
+    // 20px).
+    .darkmode {
+      width: 32px;
+    }
+
+    .darkmode svg {
+      width: 32px;
+      height: 32px;
+      top: calc(50% - 16px);
+    }
+  }
+
+  // Shared width below the hero: Recent Notes + Graph side by side, Site Index spanning
+  // all columns beneath them, at the same shared 2.5rem gap as .site-index-columns (column
+  // *count* no longer has to match between the two — this grid keeps its own 3/2/1 desktop/
+  // tablet/mobile split regardless of how many text-columns .site-index-columns renders).
+  // `order` puts Recent Notes visually first (left) and Graph
+  // second (right) without reordering the DOM (Graph renders first per its lower afterBody
+  // priority in quartz.config.yaml — reordering there would touch a non-CSS file, out of
+  // this plan's scope). Site Index needs its own explicit `order` too: otherwise its
+  // default (0) would sort before both of the above and its grid-column: 1/-1 would claim
+  // row 1 instead of falling below them.
+  .page-footer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
+  }
+
+  .page-footer > .recent-notes {
+    order: 1;
+  }
+
+  .page-footer > .graph {
+    order: 2;
+    grid-column: span 2;
+  }
+
+  // Below desktop, Graph drops from span 2 to span 1 — combined with the tablet/mobile
+  // column-count changes further down, that's a 50/50 split at tablet (2-column grid) and a
+  // full stack at mobile (1-column grid, where span 1 is the only option anyway). Placed
+  // after the base rules above (not nested inside them) so it wins on source order: an
+  // equal-specificity rule declared later in the cascade always wins, media query or not,
+  // and an override nested before the base rule it's overriding would silently lose to it.
+  @media all and not ($desktop) {
+    .page-footer > .graph {
+      grid-column: span 1;
+    }
+  }
+
+  // Own 3 → 2 → 1 breakpoint schedule, independent of .site-index-columns further down.
+  @media all and ($tablet) {
+    .page-footer {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media all and ($mobile) {
+    .page-footer {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  // Index-only Graph: bigger box (it's the page's visual centerpiece here, not a 250px
+  // sidebar card), and its heading matches .recent-notes > h3's H1-equivalent size
+  // (custom.scss's "Section title... sized identically to the H1 rule" block). margin: 0
+  // on both the box and heading so it starts flush at the same height as Recent Notes'
+  // heading in the grid cell beside it.
+  .page-footer > .graph > .graph-outer {
+    height: 420px;
+    margin-top: 0;
+  }
+
+  .page-footer > .graph > h3 {
+    font-size: 1.75rem !important;
+    line-height: 1;
+  }
+
+  @media (min-width: 800px) {
+    .page-footer > .graph > h3 {
+      font-size: 3rem !important;
+      line-height: 0.9;
+    }
+  }
+
+  // SiteIndex: spans every grid column below Recent Notes/Graph, at the same shared width
+  // they use — via the grid now, not its own max-width. Explicit order so it always sorts
+  // after both (see the .page-footer comment above for why that's needed at all).
+  // Separator above the Site Index, matching the global `hr` rule further up in this file
+  // (1px dashed var(--darkgray)) exactly. The grid's own 2.5rem gap above already matches
+  // that rule's top margin; padding-top here reproduces its bottom margin the same way.
+  .page-footer > .site-index {
+    order: 3;
+    grid-column: 1 / -1;
+    border-top: 1px dashed var(--darkgray);
+    padding-top: 2.5rem;
+  }
+
+  .site-index > h3 {
+    font-size: 1.75rem;
+    line-height: 1;
+  }
+
+  @media (min-width: 800px) {
+    .site-index > h3 {
+      font-size: 3rem;
+      line-height: 0.9;
+    }
+  }
+
+  .site-index-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background-color: var(--light);
+    padding: 0.6rem 0;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--lightgray);
+  }
+
+  .site-index-nav a,
+  .site-index-nav span.empty {
+    display: inline-block;
+    min-width: 1.6rem;
+    text-align: center;
+    font-weight: 700;
+    padding: 0.1rem 0.3rem;
+    border-radius: 3px;
+  }
+
+  .site-index-nav a {
+    color: var(--secondary);
+    text-decoration: none;
+  }
+
+  .site-index-nav a:hover {
+    background-color: var(--lightgray);
+  }
+
+  .site-index-nav span.empty {
+    // Not var(--lightgray) directly: it's a chromatically-neutral translucent
+    // black/white (rgb(0 0 0/20%) light, rgb(255 255 255/20%) dark), so as text
+    // color it desaturates toward flat gray instead of picking up either theme's
+    // warmth — on the light theme's beige background that reads as "dark-theme
+    // gray" even though the right variable is resolving correctly. Deriving the
+    // tone from each theme's own (already warm/cool-tinted) --darkgray keeps it
+    // muted but visibly of-the-theme.
+    color: color-mix(in srgb, var(--darkgray) 35%, var(--light));
+  }
+
+  @media (min-width: 800px) {
+    .site-index-nav {
+      margin-bottom: 4rem;
+    }
+
+    .site-index-nav a,
+    .site-index-nav span.empty {
+      font-size: 2.3rem;
+    }
+  }
+
+  .site-index-columns {
+    columns: 2;
+    column-gap: 2.5rem;
+
+    @media all and ($mobile) {
+      columns: 1;
+    }
+  }
+
+  .site-index-group {
+    break-inside: avoid;
+    margin-bottom: 1.25rem;
+  }
+
+  .site-index-letter {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--secondary);
+    border-bottom: 2px solid var(--lightgray);
+    margin: 0 0 0.3rem 0;
+    padding-bottom: 0.15rem;
+  }
+
+  .site-index-group ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .site-index-group li {
+    font-size: 1.25rem;
+    padding: 0.1rem 0;
+  }
+}
