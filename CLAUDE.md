@@ -26,10 +26,10 @@ stuff actually lives.
 
 ## Sister Projects
 
-This project, **ale.ms** (`/Users/alemsabic/Desktop/ale.ms`), and **gpunkt.org**
+This project, **Schmutz** (`schmutz.schund.org`, local path `/Users/alemsabic/Desktop/ale.ms`), and **gpunkt.org**
 (`/Users/alemsabic/Desktop/gpunkt.org`) are all Quartz v5 sites maintained by the same person, kept
 in close alignment on purpose — all three follow this same `CLAUDE.md` / `CUSTOM-MODIFICATIONS.md` /
-`upgrade.md` structure. ale.ms and gpunkt.org are both live and fully migrated to Quartz v5; this
+`upgrade.md` structure. Schmutz and gpunkt.org are both live and fully migrated to Quartz v5; this
 project is still being bootstrapped (see Project Status below). When you land an improvement here —
 tooling, config conventions, a reusable component (not content) — consider whether it should be
 ported to the other two, and vice versa (their `CLAUDE.md`s document what already exists and is
@@ -39,7 +39,7 @@ worth reusing here instead of re-solving from scratch).
 
 ## ⚠️ Important: Two-Repository Architecture (planned)
 
-This repository will handle **PRESENTATION ONLY** (Quartz static site generator), matching ale.ms
+This repository will handle **PRESENTATION ONLY** (Quartz static site generator), matching Schmutz
 and gpunkt.org.
 
 **Content will be managed separately**:
@@ -48,7 +48,7 @@ and gpunkt.org.
 - Local path: `/Users/alemsabic/Desktop/MEMEX/Projekte/stilistik/` (folder created, empty — no git
   repo initialized yet)
 - Intended to auto-sync to this repo's `content/` folder via a GitHub Action in the content repo,
-  same pattern as `alems-notizen` → ale.ms and `gpunkt-woerter` → gpunkt.org.
+  same pattern as `alems-notizen` → Schmutz and `gpunkt-woerter` → gpunkt.org.
 - **Once set up: DO NOT edit files in `content/` directly** — same rule as the sister projects.
 
 ### Repository Focus (once bootstrapped)
@@ -85,7 +85,7 @@ rules/guidance reference.
 
 ## Deployment
 
-**Platform**: Cloudflare Pages, native Git integration (matching ale.ms/gpunkt.org).
+**Platform**: Cloudflare Pages, native Git integration (matching Schmutz/gpunkt.org).
 
 - **Repository**: https://github.com/alemsabic/stilistik-site
 - **Branch**: `v5` (production + default, matching sister-project convention from the start —
@@ -96,7 +96,7 @@ rules/guidance reference.
   optional.
 - **Output Directory**: `public`
 - `upstream` git remote (`https://github.com/jackyzha0/quartz.git`) is set up, matching
-  ale.ms/gpunkt.org, for whenever a future Quartz version upgrade is needed — see `upgrade.md` in
+  Schmutz/gpunkt.org, for whenever a future Quartz version upgrade is needed — see `upgrade.md` in
   either sister repo for the actual fetch/checkout/re-port mechanism (vendored core, not an npm
   dependency, so it's a manual process either way).
 
@@ -127,7 +127,7 @@ when indexing genuine external documentation, not this repo's own short files.
 
 ## Notes
 
-- No `jCodeMunch`/code-indexing MCP here by design — ale.ms and gpunkt.org removed it 2026-08-04 (it
+- No `jCodeMunch`/code-indexing MCP here by design — Schmutz and gpunkt.org removed it 2026-08-04 (it
   wasn't earning its keep for repos this size); don't re-add it without a fresh reason.
 - `CUSTOM-MODIFICATIONS.md` here is still gpunkt.org's content verbatim (inherited via the clone,
   not yet re-reviewed for this repo) — accurate for the code as it stands today, but revisit once
