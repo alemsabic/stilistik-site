@@ -72,8 +72,6 @@ repo doesn't exist yet.
   git repo initialized: `/Users/alemsabic/Desktop/MEMEX/Projekte/stilistik/`.
 - `sync-to-quartz.yml` GitHub Action (copy from `gpunkt-woerter` or `alems-notizen`, adjust target
   repo/branch) — not set up; needs a `QUARTZ_REPO_TOKEN` PAT once the content repo exists.
-- Giscus comments — disabled in `quartz.config.yaml` (placeholder `repoId`/`categoryId`), needs
-  fresh registration at giscus.app once real content exists.
 - Actual content and visual identity — currently inherits gpunkt.org's "Clinical Cold" theme and
   tagline text verbatim (renamed to placeholder strings only); revisit both once content work
   starts.

@@ -296,14 +296,14 @@ plugins:
       position: afterBody
       priority: 6
   - source: "@quartz-community/comments"
-    enabled: false # disabled until giscus is freshly registered against stilistik-site (see bootstrap.md)
+    enabled: true
     options:
       provider: giscus
       options:
         repo: alemsabic/stilistik-site
-        repoId: TODO
+        repoId: R_kgDOTtgOXw
         category: General
-        categoryId: TODO
+        categoryId: DIC_kwDOTtgOX84DCtJQ
         mapping: pathname
         strict: false
         reactionsEnabled: true
