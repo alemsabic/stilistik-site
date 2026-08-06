@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=./quartz/plugins/quartz-plugins.schema.json
 configuration:
   pageTitle: stilistik
-  pageTitleSuffix: "Pipeline-Platzhalter — Content folgt"
+  pageTitleSuffix: "Die moderne Stilistik — für professionelles Deutsch, lesbar von Mensch und Maschine."
   enableSPA: true
   enablePopovers: true
   analytics:
@@ -13,31 +13,32 @@ configuration:
     - templates
     - .obsidian
   theme:
-    fontOrigin: googleFonts
-    cdnCaching: true
+    fontOrigin: local
+    cdnCaching: false
     typography:
-      header: Archivo
-      body: Inter
+      title: Geist Pixel
+      header: Geist
+      body: Geist Mono
       code: JetBrains Mono
     colors:
       lightMode:
-        light: "#d4d4d4"
+        light: "#ffffff"
         lightgray: rgba(0, 0, 0, 0.07)
         gray: "#666666"
         darkgray: "#111111"
         dark: "#222222"
-        secondary: "#3347cb"
-        tertiary: "#5468e0"
+        secondary: "#444444"
+        tertiary: "#222222"
         highlight: rgba(0, 0, 0, 0.08)
         textHighlight: "#00000014"
       darkMode:
-        light: "#0a1967"
+        light: "#000000"
         lightgray: rgba(255, 255, 255, 0.1)
         gray: "#888888"
         darkgray: "#eeeeee"
         dark: "#dddddd"
-        secondary: "#ee683d"
-        tertiary: "#f58a68"
+        secondary: "#cccccc"
+        tertiary: "#eeeeee"
         highlight: rgba(255, 255, 255, 0.1)
         textHighlight: "#ffffff14"
 plugins:
