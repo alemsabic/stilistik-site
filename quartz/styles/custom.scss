@@ -199,6 +199,7 @@ h1 {
 // Additional margin for h2 and h3 within content
 article h2 {
   margin-top: 3.9rem !important;
+  font-weight: 500;
   font-size: 1.8rem;
   border-bottom: 2px solid;
   padding-bottom: 0.25rem;
@@ -223,6 +224,7 @@ article h3 {
 article h4 {
   text-align: center;
   font-size: 1.5rem;
+  font-weight: 500;
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
@@ -395,7 +397,7 @@ a.internal.tag-link {
   font-size: 1.25rem;
   margin-top: 0.5rem;
   margin-bottom: 2.5rem;
-  line-height: 1.1rem;
+  line-height: 1.15;
   font-family: var(--titleFont);
   font-variation-settings: "ELSH" #{$geist-pixel-shape};
 }
@@ -718,13 +720,13 @@ article .data-footnote-backref {
 }
 
 [saved-theme="light"] .graph > .graph-outer > .global-graph-icon {
-  color: #ee683d;
-  background-color: rgba(238, 104, 61, 0.12) !important;
+  color: var(--secondary);
+  background-color: rgba(68, 68, 68, 0.12) !important;
 }
 
 [saved-theme="dark"] .graph > .graph-outer > .global-graph-icon {
-  color: #39ff14;
-  background-color: rgba(57, 255, 20, 0.1) !important;
+  color: var(--secondary);
+  background-color: rgba(204, 204, 204, 0.12) !important;
 }
 
 // ============================================

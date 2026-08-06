@@ -12,7 +12,7 @@ $geist-pixel-shape: 80;
 
 @font-face {
   font-family: "Geist Pixel";
-  src: url("/static/fonts/GeistPixel-ELSH.woff2") format("woff2-variations");
+  src: url("/static/fonts/GeistPixel-ELSH.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -20,7 +20,7 @@ $geist-pixel-shape: 80;
 
 @font-face {
   font-family: "Geist";
-  src: url("/static/fonts/Geist-wght.woff2") format("woff2-variations");
+  src: url("/static/fonts/Geist-wght.woff2") format("woff2");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
@@ -28,7 +28,7 @@ $geist-pixel-shape: 80;
 
 @font-face {
   font-family: "Geist";
-  src: url("/static/fonts/Geist-Italic-wght.woff2") format("woff2-variations");
+  src: url("/static/fonts/Geist-Italic-wght.woff2") format("woff2");
   font-weight: 100 900;
   font-style: italic;
   font-display: swap;
@@ -36,7 +36,7 @@ $geist-pixel-shape: 80;
 
 @font-face {
   font-family: "Geist Mono";
-  src: url("/static/fonts/GeistMono-wght.woff2") format("woff2-variations");
+  src: url("/static/fonts/GeistMono-wght.woff2") format("woff2");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
@@ -44,7 +44,7 @@ $geist-pixel-shape: 80;
 
 @font-face {
   font-family: "Geist Mono";
-  src: url("/static/fonts/GeistMono-Italic-wght.woff2") format("woff2-variations");
+  src: url("/static/fonts/GeistMono-Italic-wght.woff2") format("woff2");
   font-weight: 100 900;
   font-style: italic;
   font-display: swap;
@@ -52,7 +52,7 @@ $geist-pixel-shape: 80;
 
 @font-face {
   font-family: "JetBrains Mono";
-  src: url("/static/fonts/JetBrainsMono-wght.woff2") format("woff2-variations");
+  src: url("/static/fonts/JetBrainsMono-wght.woff2") format("woff2");
   font-weight: 100 800;
   font-style: normal;
   font-display: swap;
@@ -60,7 +60,7 @@ $geist-pixel-shape: 80;
 
 @font-face {
   font-family: "JetBrains Mono";
-  src: url("/static/fonts/JetBrainsMono-Italic-wght.woff2") format("woff2-variations");
+  src: url("/static/fonts/JetBrainsMono-Italic-wght.woff2") format("woff2");
   font-weight: 100 800;
   font-style: italic;
   font-display: swap;

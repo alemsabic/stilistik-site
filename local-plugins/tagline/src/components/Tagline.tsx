@@ -14,7 +14,7 @@ Tagline.css = `
   font-size: 1.2rem;
   margin-top: 1rem;
   margin-bottom: 2.5rem;
-  line-height: 1.1rem;
+  line-height: 1.15;
 }
 `;
 

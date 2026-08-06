@@ -57,6 +57,10 @@
               "type": "object",
               "additionalProperties": false,
               "properties": {
+                "title": {
+                  "type": "string",
+                  "description": "Font family for the site title"
+                },
                 "header": {
                   "type": "string",
                   "description": "Font family for headers"
