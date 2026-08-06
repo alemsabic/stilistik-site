@@ -1,10 +1,10 @@
 import type { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "@quartz-community/types";
 import { classNames } from "@quartz-community/utils";
 
-const Tagline: QuartzComponent = ({ displayClass }: QuartzComponentProps) => {
+const Tagline: QuartzComponent = ({ displayClass, cfg }: QuartzComponentProps) => {
   return (
     <div class={classNames(displayClass, "tagline", "desktop-only")}>
-      Pipeline-Platzhalter — Content folgt.
+      {cfg.pageTitleSuffix ?? ""}
     </div>
   );
 };
