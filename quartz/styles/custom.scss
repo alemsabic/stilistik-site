@@ -114,7 +114,7 @@
 // Page title font size - responsive
 .page-title {
   font-size: 1.95rem !important; // Mobile
-  font-family: var(--headerFont) !important;
+  font-family: var(--titleFont) !important;
 }
 
 @media (min-width: 800px) {
@@ -160,9 +160,11 @@
   color: var(--bodyText) !important;
 }
 
-// H1 font-weight
+// H1 uses the title font (Geist Pixel) — H2-H6 stay on the header font (Geist)
+// via base.scss's shared h1-h6 rule, this pulls H1 out of that group.
 h1 {
-  font-weight: 900 !important;
+  font-family: var(--titleFont) !important;
+  font-variation-settings: "ELSH" #{$geist-pixel-shape};
 }
 
 // Light theme: alle Überschriften + Page-Title in Blau
@@ -187,15 +189,14 @@ h1 {
   color: #ee683d !important;
 }
 
-// Page title link font weight to match headings
+// Page title link matches the title font's pixel shape
 .page-title a {
-  font-weight: 900 !important;
+  font-variation-settings: "ELSH" #{$geist-pixel-shape};
 }
 
 // Additional margin for h2 and h3 within content
 article h2 {
   margin-top: 3.9rem !important;
-  font-weight: 500;
   font-size: 1.8rem;
   border-bottom: 2px solid;
   padding-bottom: 0.25rem;
@@ -220,7 +221,6 @@ article h3 {
 article h4 {
   text-align: center;
   font-size: 1.5rem;
-  font-weight: 500;
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
@@ -394,6 +394,7 @@ a.internal.tag-link {
   margin-bottom: 2.5rem;
   line-height: 1.1rem;
   font-family: var(--titleFont);
+  font-variation-settings: "ELSH" #{$geist-pixel-shape};
 }
 
 // v5's quartz/styles/base.scss changed `.desktop-only` from v4's `display: initial` to
@@ -1019,8 +1020,8 @@ h2:has(.heading-badge) + p::first-letter {
   line-height: 0.82;
   margin-right: 0.07em;
   margin-bottom: -0.05em;
-  font-family: var(--headerFont);
-  font-weight: 900;
+  font-family: var(--titleFont);
+  font-variation-settings: "ELSH" #{$geist-pixel-shape};
 }
 
 [saved-theme="light"] h2:has(.heading-badge) + p::first-letter {
