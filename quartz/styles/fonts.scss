@@ -1,0 +1,67 @@
+// Self-hosted fonts (theme.fontOrigin: local in quartz.config.yaml — CDN
+// requests to Google Fonts would leak visitor IPs without consent, see
+// docs/superpowers/specs/2026-08-06-visual-refresh-design.md §1).
+// Source TTFs converted to woff2 via `npx ttf2woff2` (see Task 1 of the
+// implementation plan for exact download commands and provenance).
+
+// Element Shape value for Geist Pixel's ELSH axis (0-100, five named styles:
+// Square=1, Circle=20, Grid=40, Triangle=60, Line=80 — see spec §1 for the
+// full table and why ELSH is a style-selector, not an intensity axis).
+// Change this single value to switch styles everywhere Geist Pixel is used.
+$geist-pixel-shape: 80;
+
+@font-face {
+  font-family: "Geist Pixel";
+  src: url("/static/fonts/GeistPixel-ELSH.woff2") format("woff2-variations");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Geist";
+  src: url("/static/fonts/Geist-wght.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Geist";
+  src: url("/static/fonts/Geist-Italic-wght.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  src: url("/static/fonts/GeistMono-wght.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  src: url("/static/fonts/GeistMono-Italic-wght.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/static/fonts/JetBrainsMono-wght.woff2") format("woff2-variations");
+  font-weight: 100 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/static/fonts/JetBrainsMono-Italic-wght.woff2") format("woff2-variations");
+  font-weight: 100 800;
+  font-style: italic;
+  font-display: swap;
+}
