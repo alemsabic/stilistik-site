@@ -1156,24 +1156,26 @@ body[data-slug="index"] {
     display: none !important;
   }
 
-  // Hero stays a compact, left-aligned text block — the one section that does NOT take on
-  // the full width of .site-index below. Left-pinned, not
-  // centered: with the sidebars gone the page is up to 1500px wide, and a 46rem block
-  // glued to the left edge reads as an intentional top-left title, matching where a page
-  // title conventionally sits — a centered 46rem block on a 1500px page read as adrift.
+  // Hero spans the full width of the (sidebar-less) grid, text centered — a banner
+  // rather than a top-left page title. Supersedes an earlier left-pinned 46rem block;
+  // centered reads better once the tagline/search below it also runs full-width.
   .page-header {
-    max-width: 46rem;
-    margin-left: 0;
+    text-align: center;
     margin-top: 3rem;
   }
 
   // Hero: Title + Tagline, now living in .page-header instead of the sidebar.
   .page-header .page-title {
     font-size: 6rem !important;
+
+    @media all and ($mobile) {
+      font-size: 4rem !important;
+    }
   }
 
   .page-header .tagline {
     font-size: 1.5rem !important;
+    margin-top: 1.75rem;
   }
 
   // Tagline.tsx hardcodes "desktop-only" on its root div, and base custom.scss hides
