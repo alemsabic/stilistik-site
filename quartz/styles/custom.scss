@@ -393,11 +393,12 @@ a.internal.tag-link {
 
 // Tagline (below page title, left sidebar). Ported 1:1 from ale.ms's custom.scss.
 .tagline {
-  font-size: 1.25rem;
+  font-size: 0.85rem;
   margin-top: 0.5rem;
   margin-bottom: 2.5rem;
   line-height: 1.15;
   font-family: var(--bodyFont);
+  color: var(--gray);
 }
 
 // Short tagline (mobile) vs. full tagline (desktop) — swap which span shows
