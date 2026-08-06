@@ -832,3 +832,91 @@ npm run check
 Expected: no TypeScript errors, no Prettier formatting violations. If Prettier flags the edited `.scss`/`.yaml` files, run `npm run format` and re-verify the build (Step 1) still succeeds, then amend the affected task's commit — do not create a separate "fix formatting" commit for changes that belong to an already-committed task.
 
 No commit for this task — it's verification-only. If Step 4 or Step 5 surfaces an issue, fix it within the task that owns the affected file and amend that task's commit, don't create a new task for it.
+
+---
+
+### Task 8: Fix `Tagline` component to render `cfg.pageTitleSuffix` (discovered during Task 7's manual visual check)
+
+**Added after the fact.** Task 7's manual browser check found that the on-page tagline (sidebar and homepage hero) still shows the old placeholder text "Pipeline-Platzhalter — Content folgt." instead of the new tagline from Task 3. Root cause: `local-plugins/tagline/src/components/Tagline.tsx` hardcodes that placeholder string directly in JSX — it never reads `cfg.pageTitleSuffix` at all. Task 3's `quartz.config.yaml` change was correct and did land in the HTML `<title>` tag (which `quartz/components/Head.tsx:15` does read from `cfg.pageTitleSuffix`), but the *visible* tagline text is a completely separate, disconnected render path. This is a gap in the plan's own research, not an implementer error in Task 3.
+
+**Files:**
+- Modify: `local-plugins/tagline/src/components/Tagline.tsx`
+
+**Interfaces:**
+- Consumes: `cfg.pageTitleSuffix` (already set correctly by Task 3) via the `cfg: GlobalConfiguration` prop that `QuartzComponentProps` already provides (`quartz/components/types.ts:8-17`) — same pattern `Head.tsx:15` already uses (`cfg.pageTitleSuffix ?? ""`).
+
+- [ ] **Step 1: Make the component read from config**
+
+Current (`local-plugins/tagline/src/components/Tagline.tsx`):
+
+```tsx
+import type { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "@quartz-community/types";
+import { classNames } from "@quartz-community/utils";
+
+const Tagline: QuartzComponent = ({ displayClass }: QuartzComponentProps) => {
+  return (
+    <div class={classNames(displayClass, "tagline", "desktop-only")}>
+      Pipeline-Platzhalter — Content folgt.
+    </div>
+  );
+};
+```
+
+New:
+
+```tsx
+import type { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "@quartz-community/types";
+import { classNames } from "@quartz-community/utils";
+
+const Tagline: QuartzComponent = ({ displayClass, cfg }: QuartzComponentProps) => {
+  return (
+    <div class={classNames(displayClass, "tagline", "desktop-only")}>
+      {cfg.pageTitleSuffix ?? ""}
+    </div>
+  );
+};
+```
+
+(The `.tagline a { text-decoration: none; }` rule in `custom.scss` and the `Tagline.css` block below the component are unrelated to this fix — leave them alone. This component renders plain text now, same as before; it never had a link.)
+
+- [ ] **Step 2: Rebuild the plugin**
+
+This repo's local-plugins are pre-built into `dist/` (that's what's actually loaded, not the `.tsx` source directly — confirmed by finding the old placeholder string baked into `local-plugins/tagline/dist/components/index.js`). Rebuild:
+
+```bash
+npx quartz plugin install --from-config
+```
+
+(Same command the site's own Cloudflare Pages build runs — it rebuilds local-plugins from source as part of dependency install, per this task's brief context. If this command reports the plugin as already installed and doesn't rebuild, force a rebuild by removing the stale dist first: `rm -rf local-plugins/tagline/dist && npx quartz plugin install --from-config`.)
+
+- [ ] **Step 3: Build and verify**
+
+```bash
+npx quartz build
+grep -o "Pipeline-Platzhalter" local-plugins/tagline/dist/components/index.js | wc -l
+```
+
+Expected: build succeeds; the grep count is `0` (old placeholder string no longer baked into the rebuilt dist).
+
+```bash
+grep -c "Die moderne Stilistik" public/index.html
+```
+
+Expected: `1` or more (both the `<title>` tag from Task 3 and the now-fixed visible tagline div should contain this text — a count of exactly 1 would mean only the title tag matches and the component still isn't rendering the new text, so if this returns exactly what Task 3 already produced with no increase, investigate further rather than assuming success).
+
+- [ ] **Step 4: Manual visual check**
+
+```bash
+npx quartz build --serve
+```
+
+Open the served URL. The sidebar tagline (non-index pages) and the homepage hero tagline (index page) should both show "Die moderne Stilistik — für professionelles Deutsch, lesbar von Mensch und Maschine." — not the old placeholder. Stop the server when done.
+
+- [ ] **Step 5: Commit**
+
+`local-plugins/*/dist/` is gitignored (confirmed via `.gitignore:15` and `git ls-files local-plugins/tagline/dist/` returning nothing) — it's a rebuilt-on-deploy artifact, not committed source. Only the `.tsx` source change is committed:
+
+```bash
+git add local-plugins/tagline/src/components/Tagline.tsx
+git commit -m "fix: Tagline component now renders cfg.pageTitleSuffix instead of hardcoded placeholder"
+```
