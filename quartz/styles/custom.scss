@@ -202,8 +202,12 @@ h6 {
 article h2 {
   margin-top: 3.9rem !important;
   font-size: 1.8rem;
-  border-bottom: 2px solid;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   padding-bottom: 0.25rem;
+}
+
+[saved-theme="dark"] article h2 {
+  border-bottom-color: rgba(255, 255, 255, 0.08);
 }
 
 article h2:has(+ ul) {
