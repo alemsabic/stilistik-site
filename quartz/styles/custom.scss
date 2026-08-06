@@ -398,7 +398,14 @@ a.internal.tag-link {
   margin-bottom: 2.5rem;
   line-height: 1.15;
   font-family: var(--bodyFont);
-  color: var(--gray);
+}
+
+[saved-theme="light"] .tagline {
+  color: #3347cb;
+}
+
+[saved-theme="dark"] .tagline {
+  color: #eab308;
 }
 
 // Short tagline (mobile) vs. full tagline (desktop) — swap which span shows
