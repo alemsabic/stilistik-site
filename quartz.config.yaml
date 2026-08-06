@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=./quartz/plugins/quartz-plugins.schema.json
 configuration:
   pageTitle: stilistik
-  pageTitleSuffix: "Die moderne Stilistik — für professionelles Deutsch, lesbar von Mensch und Maschine."
+  pageTitleSuffix: "Moderne Stilistik. Für besseres Deutsch — lesbar von Mensch und Maschine."
   enableSPA: true
   enablePopovers: true
   analytics:
@@ -27,7 +27,7 @@ configuration:
         gray: "#666666"
         darkgray: "#111111"
         dark: "#222222"
-        secondary: "#444444"
+        secondary: "#555555"
         tertiary: "#222222"
         highlight: rgba(0, 0, 0, 0.08)
         textHighlight: "#00000014"
@@ -37,8 +37,8 @@ configuration:
         gray: "#888888"
         darkgray: "#eeeeee"
         dark: "#dddddd"
-        secondary: "#cccccc"
-        tertiary: "#eeeeee"
+        secondary: "#999999"
+        tertiary: "#cccccc"
         highlight: rgba(255, 255, 255, 0.1)
         textHighlight: "#ffffff14"
 plugins:
@@ -172,7 +172,7 @@ plugins:
   - source: "@quartz-community/explorer"
     enabled: true
     options:
-      title: "Wörter"
+      title: "Richtlinien"
     layout:
       position: left
       priority: 50

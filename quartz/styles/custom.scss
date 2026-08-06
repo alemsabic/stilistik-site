@@ -167,28 +167,30 @@ h1 {
   font-variation-settings: "ELSH" #{$geist-pixel-shape};
 }
 
-// Light theme: alle Überschriften + Page-Title in Fast-Schwarz (monochrom,
-// kein Farbakzent mehr — der Akzent lebt jetzt nur noch bei Links, siehe
-// theme.colors.secondary/tertiary in quartz.config.yaml)
-[saved-theme="light"] h1,
-[saved-theme="light"] h2,
-[saved-theme="light"] h3,
-[saved-theme="light"] h4,
-[saved-theme="light"] h5,
-[saved-theme="light"] h6,
-[saved-theme="light"] .page-title a {
-  color: #000000 !important;
+// Überschriften + Page-Title in derselben Farbe wie der Fließtext
+// (var(--darkgray), konsequent monochrom) — kein eigener Farbakzent mehr,
+// der lebt jetzt nur noch bei Links, siehe theme.colors.secondary/tertiary
+// in quartz.config.yaml.
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.page-title a {
+  color: var(--darkgray) !important;
 }
 
-// Dark theme: alle Überschriften + Page-Title in Fast-Weiß
-[saved-theme="dark"] h1,
-[saved-theme="dark"] h2,
-[saved-theme="dark"] h3,
-[saved-theme="dark"] h4,
-[saved-theme="dark"] h5,
-[saved-theme="dark"] h6,
-[saved-theme="dark"] .page-title a {
-  color: #ffffff !important;
+// Alle Überschriften einheitliches Gewicht — H1/.page-title a laufen auf
+// Geist Pixel (keine echte wght-Achse, dieser Wert ist dort ein No-op),
+// H2-H6 auf Geist (echte wght-Achse, greift korrekt).
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 500;
 }
 
 // Page title link matches the title font's pixel shape
@@ -199,7 +201,6 @@ h1 {
 // Additional margin for h2 and h3 within content
 article h2 {
   margin-top: 3.9rem !important;
-  font-weight: 500;
   font-size: 1.8rem;
   border-bottom: 2px solid;
   padding-bottom: 0.25rem;
@@ -213,7 +214,6 @@ article h2:has(+ ul) {
 article.first-page h1 + h2 {
   margin-top: 0 !important;
   font-family: var(--bodyFont) !important;
-  font-weight: 500;
   font-size: 1.8rem;
 }
 
@@ -224,7 +224,6 @@ article h3 {
 article h4 {
   text-align: center;
   font-size: 1.5rem;
-  font-weight: 500;
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
@@ -259,7 +258,7 @@ body {
   background-image: repeating-linear-gradient(
     90deg,
     rgba(0, 0, 0, 0.08) 0 1px,
-    transparent 1px 80px
+    transparent 1px 200px
   );
 }
 
@@ -267,7 +266,7 @@ body {
   background-image: repeating-linear-gradient(
     90deg,
     rgba(255, 255, 255, 0.08) 0 1px,
-    transparent 1px 80px
+    transparent 1px 200px
   );
 }
 
@@ -398,8 +397,23 @@ a.internal.tag-link {
   margin-top: 0.5rem;
   margin-bottom: 2.5rem;
   line-height: 1.15;
-  font-family: var(--titleFont);
-  font-variation-settings: "ELSH" #{$geist-pixel-shape};
+  font-family: var(--headerFont);
+}
+
+// Short tagline (mobile) vs. full tagline (desktop) — swap which span shows
+// by width, not by which .tagline instance is visible (that's handled
+// separately by the .desktop-only/mobile-inline rules below).
+.tagline-short {
+  display: none;
+}
+
+@media (max-width: 800px) {
+  .tagline-full {
+    display: none;
+  }
+  .tagline-short {
+    display: inline;
+  }
 }
 
 // v5's quartz/styles/base.scss changed `.desktop-only` from v4's `display: initial` to
@@ -468,6 +482,23 @@ button.toc-header h3 {
 .backlinks > h3 {
   font-weight: 700 !important;
   font-family: var(--bodyFont) !important;
+}
+
+// Homepage Graph is the large, always-expanded index-only instance (see
+// quartz.config.yaml's is-index graph plugin entry) — it should read as a
+// normal page heading here, not the small-widget bodyFont/700 treatment
+// the sidebar Graph gets on content pages.
+body[data-slug="index"] .graph > h3 {
+  font-weight: 500 !important;
+  font-family: var(--headerFont) !important;
+}
+
+// Recent-notes item titles are links (each wraps an <a class="internal">) —
+// match the body font like other inline links, not the heading font. Color
+// already resolves correctly via base.scss's global `a { color: var(--secondary) }`
+// rule; only font-family leaks through from the h3 wrapper via inheritance.
+.recent-notes .recent-li h3 {
+  font-family: var(--bodyFont);
 }
 
 // Rückseite heading alignment
