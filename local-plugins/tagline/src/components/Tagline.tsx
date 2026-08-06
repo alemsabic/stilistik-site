@@ -2,9 +2,10 @@ import type { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps 
 import { classNames } from "@quartz-community/utils";
 
 // Mobile gets a shorter tagline than pageTitleSuffix — the full version wraps
-// too eagerly at narrow widths. Not config-driven: this is a display-only
-// adaptation of the same tagline, not an independent piece of site content.
-const shortTagline = "Besseres Deutsch.";
+// too eagerly at narrow widths. Not config-driven: this is pageTitleSuffix's
+// first sentence only, with the second ("Geschrieben für Mensch und Maschine.")
+// dropped for space, not an independent piece of site content.
+const shortTagline = "Moderne Stilistik für bessere Texte.";
 
 const Tagline: QuartzComponent = ({ displayClass, cfg }: QuartzComponentProps) => {
   return (
