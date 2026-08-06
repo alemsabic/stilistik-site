@@ -167,7 +167,9 @@ h1 {
   font-variation-settings: "ELSH" #{$geist-pixel-shape};
 }
 
-// Light theme: alle Überschriften + Page-Title in Blau
+// Light theme: alle Überschriften + Page-Title in Fast-Schwarz (monochrom,
+// kein Farbakzent mehr — der Akzent lebt jetzt nur noch bei Links, siehe
+// theme.colors.secondary/tertiary in quartz.config.yaml)
 [saved-theme="light"] h1,
 [saved-theme="light"] h2,
 [saved-theme="light"] h3,
@@ -175,10 +177,10 @@ h1 {
 [saved-theme="light"] h5,
 [saved-theme="light"] h6,
 [saved-theme="light"] .page-title a {
-  color: #3347cb !important;
+  color: #000000 !important;
 }
 
-// Dark theme: alle Überschriften + Page-Title in Orange
+// Dark theme: alle Überschriften + Page-Title in Fast-Weiß
 [saved-theme="dark"] h1,
 [saved-theme="dark"] h2,
 [saved-theme="dark"] h3,
@@ -186,7 +188,7 @@ h1 {
 [saved-theme="dark"] h5,
 [saved-theme="dark"] h6,
 [saved-theme="dark"] .page-title a {
-  color: #ee683d !important;
+  color: #ffffff !important;
 }
 
 // Page title link matches the title font's pixel shape
