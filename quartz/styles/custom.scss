@@ -511,23 +511,6 @@ button.toc-header h3 {
   font-family: var(--bodyFont) !important;
 }
 
-// Homepage Graph is the large, always-expanded index-only instance (see
-// quartz.config.yaml's is-index graph plugin entry) — it should read as a
-// normal page heading here, not the small-widget bodyFont/700 treatment
-// the sidebar Graph gets on content pages.
-body[data-slug="index"] .graph > h3 {
-  font-weight: 500 !important;
-  font-family: var(--headerFont) !important;
-}
-
-// Recent-notes item titles are links (each wraps an <a class="internal">) —
-// match the body font like other inline links, not the heading font. Color
-// already resolves correctly via base.scss's global `a { color: var(--secondary) }`
-// rule; only font-family leaks through from the h3 wrapper via inheritance.
-.recent-notes .recent-li h3 {
-  font-family: var(--bodyFont);
-}
-
 // Rückseite heading alignment
 h2#des-zettels-rückseite {
   text-align: right !important;
@@ -775,41 +758,6 @@ article .data-footnote-backref {
 [saved-theme="dark"] .graph > .graph-outer > .global-graph-icon {
   color: var(--secondary);
   background-color: rgba(204, 204, 204, 0.12) !important;
-}
-
-// ============================================
-// RECENT NOTES COMPONENT (Index Page)
-// ============================================
-
-/* Recent Notes: index-only component (see local-plugins/recent-notes). No margin/border of
-   its own — on the index page it sits in a grid cell next to Graph (custom.scss's
-   body[data-slug="index"] block), and needs to start flush at the same height as Graph's
-   heading; the grid's own gap handles spacing to the Site Index section below. */
-.recent-notes {
-  margin: 0;
-}
-
-.recent-notes li.recent-li {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-// Section title ("Zuletzt bearbeitet") sized identically to the H1 rule further up in this
-// file — same base line-height and the same min-width: 800px font-size/line-height jump.
-// Scoped to the section title only (`.recent-notes > h3`), not the per-entry titles nested
-// in `.section > .desc > h3 > a`, which stay at their own (smaller) size.
-.recent-notes > h3 {
-  font-size: 1.75rem;
-  line-height: 1;
-  margin: 0;
-}
-
-@media (min-width: 800px) {
-  .recent-notes > h3 {
-    font-size: 3rem;
-    line-height: 0.9;
-    margin-bottom: 2rem;
-  }
 }
 
 // ============================================
@@ -1137,10 +1085,8 @@ article ul li.li-im-fokus {
 // them — no component fork needed.
 .explorer-content a.nav-file-title[href*=".base"]::after,
 .site-index a.internal[href*=".base"]::after,
-.recent-notes a.internal[href*=".base"]::after,
 .explorer-content a.nav-file-title[href*=".canvas"]::after,
-.site-index a.internal[href*=".canvas"]::after,
-.recent-notes a.internal[href*=".canvas"]::after {
+.site-index a.internal[href*=".canvas"]::after {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1160,14 +1106,12 @@ article ul li.li-im-fokus {
 }
 
 .explorer-content a.nav-file-title[href*=".base"]::after,
-.site-index a.internal[href*=".base"]::after,
-.recent-notes a.internal[href*=".base"]::after {
+.site-index a.internal[href*=".base"]::after {
   content: "B";
 }
 
 .explorer-content a.nav-file-title[href*=".canvas"]::after,
-.site-index a.internal[href*=".canvas"]::after,
-.recent-notes a.internal[href*=".canvas"]::after {
+.site-index a.internal[href*=".canvas"]::after {
   content: "C";
 }
 
@@ -1189,9 +1133,9 @@ article ul li.li-im-fokus {
 //
 // See docs/superpowers/specs/2026-07-28-index-page-redesign-design.md §1 and the plan's
 // "Design refinement" note: the grid collapses fully (like the built-in full-width frame)
-// so the hero sits flush at the true left edge with no dead gutters. Everything except
-// .site-index gets its own explicit max-width below, so it reads at the same comfortable
-// measure as a normal content page despite the grid itself now being full-width.
+// so the hero sits flush at the true left edge with no dead gutters. .site-index is the only
+// section below the hero and intentionally has no max-width of its own — it spans the full
+// width of the now-full-width grid.
 
 body[data-slug="index"] {
   .page > #quartz-body {
@@ -1213,7 +1157,7 @@ body[data-slug="index"] {
   }
 
   // Hero stays a compact, left-aligned text block — the one section that does NOT take on
-  // the shared wide width below (see the .page-footer grid further down). Left-pinned, not
+  // the full width of .site-index below. Left-pinned, not
   // centered: with the sidebars gone the page is up to 1500px wide, and a 46rem block
   // glued to the left edge reads as an intentional top-left title, matching where a page
   // title conventionally sits — a centered 46rem block on a 1500px page read as adrift.
@@ -1273,104 +1217,6 @@ body[data-slug="index"] {
       width: 32px;
       height: 32px;
       top: calc(50% - 16px);
-    }
-  }
-
-  // Shared width below the hero: Recent Notes + Graph side by side, Site Index spanning
-  // all columns beneath them, at the same shared 2.5rem gap as .site-index-columns (column
-  // *count* no longer has to match between the two — this grid keeps its own 3/2/1 desktop/
-  // tablet/mobile split regardless of how many text-columns .site-index-columns renders).
-  // `order` puts Recent Notes visually first (left) and Graph
-  // second (right) without reordering the DOM (Graph renders first per its lower afterBody
-  // priority in quartz.config.yaml — reordering there would touch a non-CSS file, out of
-  // this plan's scope). Site Index needs its own explicit `order` too: otherwise its
-  // default (0) would sort before both of the above and its grid-column: 1/-1 would claim
-  // row 1 instead of falling below them.
-  .page-footer {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2.5rem;
-  }
-
-  .page-footer > .recent-notes {
-    order: 1;
-  }
-
-  .page-footer > .graph {
-    order: 2;
-    grid-column: span 2;
-  }
-
-  // Below desktop, Graph drops from span 2 to span 1 — combined with the tablet/mobile
-  // column-count changes further down, that's a 50/50 split at tablet (2-column grid) and a
-  // full stack at mobile (1-column grid, where span 1 is the only option anyway). Placed
-  // after the base rules above (not nested inside them) so it wins on source order: an
-  // equal-specificity rule declared later in the cascade always wins, media query or not,
-  // and an override nested before the base rule it's overriding would silently lose to it.
-  @media all and not ($desktop) {
-    .page-footer > .graph {
-      grid-column: span 1;
-    }
-  }
-
-  // Own 3 → 2 → 1 breakpoint schedule, independent of .site-index-columns further down.
-  @media all and ($tablet) {
-    .page-footer {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media all and ($mobile) {
-    .page-footer {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  // Index-only Graph: bigger box (it's the page's visual centerpiece here, not a 250px
-  // sidebar card), and its heading matches .recent-notes > h3's H1-equivalent size
-  // (custom.scss's "Section title... sized identically to the H1 rule" block). margin: 0
-  // on both the box and heading so it starts flush at the same height as Recent Notes'
-  // heading in the grid cell beside it.
-  .page-footer > .graph > .graph-outer {
-    height: 420px;
-    margin-top: 0;
-  }
-
-  .page-footer > .graph > h3 {
-    font-size: 1.75rem !important;
-    line-height: 1;
-  }
-
-  @media (min-width: 800px) {
-    .page-footer > .graph > h3 {
-      font-size: 3rem !important;
-      line-height: 0.9;
-    }
-  }
-
-  // SiteIndex: spans every grid column below Recent Notes/Graph, at the same shared width
-  // they use — via the grid now, not its own max-width. Explicit order so it always sorts
-  // after both (see the .page-footer comment above for why that's needed at all).
-  // Separator above the Site Index, matching the global `hr` rule further up in this file
-  // (1px solid, same color as the body's vertical background lines) exactly. The grid's own
-  // 2.5rem gap above already matches that rule's top margin; padding-top here reproduces its
-  // bottom margin the same way.
-  .page-footer > .site-index {
-    order: 3;
-    grid-column: 1 / -1;
-    border-top: 1px solid rgba(0, 0, 0, 0.08);
-    padding-top: 2.5rem;
-  }
-
-  .site-index > h3 {
-    font-size: 1.75rem;
-    line-height: 1;
-  }
-
-  @media (min-width: 800px) {
-    .site-index > h3 {
-      font-size: 3rem;
-      line-height: 0.9;
     }
   }
 
@@ -1451,7 +1297,7 @@ body[data-slug="index"] {
     font-size: 2.3rem;
     font-weight: 700;
     color: var(--secondary);
-    border-bottom: 2px solid var(--lightgray);
+    border-bottom: 1px solid var(--lightgray);
     margin: 0 0 0.3rem 0;
     padding-bottom: 0.15rem;
   }
@@ -1466,8 +1312,4 @@ body[data-slug="index"] {
     font-size: 1.25rem;
     padding: 0.1rem 0;
   }
-}
-
-[saved-theme="dark"] body[data-slug="index"] .page-footer > .site-index {
-  border-top-color: rgba(255, 255, 255, 0.08);
 }

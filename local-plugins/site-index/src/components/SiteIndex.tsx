@@ -35,7 +35,6 @@ export default (() => {
 
     return (
       <div class={classNames(displayClass, "site-index")}>
-        <h3>Index</h3>
         <nav class="site-index-nav" aria-label="Alphabetische Sprungleiste">
           {jumpLetters.map((letter) =>
             occupiedLetters.has(letter) ? (

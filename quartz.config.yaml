@@ -185,10 +185,10 @@ plugins:
       priority: 20
       condition: not-index
   # Index-only: same forked Graph component, always-expanded (depth: -1 = every note reachable
-  # by link from the homepage, not just 1-hop neighbors). Renders before Recent Notes
-  # (priority 5) in afterBody.
+  # by link from the homepage, not just 1-hop neighbors). Disabled: index page now starts
+  # directly with Site Index, no Graph/Recent Notes above it.
   - source: "./local-plugins/graph"
-    enabled: true
+    enabled: false
     options:
       localGraph:
         depth: -1
@@ -280,8 +280,9 @@ plugins:
       position: beforeBody
       priority: 5
       condition: not-index
+  # Disabled: index page now starts directly with Site Index, no Recent Notes above it.
   - source: "./local-plugins/recent-notes"
-    enabled: true
+    enabled: false
     options:
       limit: 10
       showTags: false
