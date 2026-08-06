@@ -54,11 +54,40 @@ Zusätzlich: `cdnCaching: true` bindet bei jedem Seitenaufruf per
 direkt gegen Googles Server — die IP-Adresse jedes Besuchers geht ohne
 Einwilligung an Google. Bekanntes DSGVO-Problem (LG München I, 2022).
 
-### Entscheidung
+### Entscheidung (überarbeitet: volle Geist-Familie statt Mix)
 
-Alle drei Fonts (Geist Pixel, IBM Plex Mono, JetBrains Mono) werden self-hosted.
+Statt Geist Pixel über die gesamte Heading-Hierarchie (H1–H6) zu spannen, wird
+die Rollenverteilung auf die volle Geist-Familie umgestellt — alle vier
+Font-Rollen kommen dann aus zueinander passenden, von Vercel bzw. JetBrains
+offiziell gepflegten Font-Familien:
 
-- `quartz.config.yaml`: `theme.fontOrigin` von `googleFonts` → `local`.
+| Rolle                          | Font          | Wo im Code                                                        |
+|---------------------------------|---------------|---------------------------------------------------------------------|
+| `title` (H1, Page-Title, Tagline) | Geist Pixel  | neuer `theme.typography.title`-Slot (aktuell ungenutzt)             |
+| `header` (H2–H6)                | Geist         | bestehender `theme.typography.header`-Slot                          |
+| `body` (Fließtext)               | Geist Mono    | bestehender `theme.typography.body`-Slot                            |
+| `code`                           | JetBrains Mono| bestehender `theme.typography.code`-Slot (unverändert)              |
+
+Das löst das H3–H6-Lesbarkeitsrisiko an der Wurzel: Geist Pixel wird nur noch
+dort eingesetzt, wofür Display-/Pixel-Fonts gemacht sind (Wortmarke/H1), nicht
+mehr über kleine Heading-Ebenen gespannt. H2–H6 laufen auf `Geist`, einem
+normalen Sans mit echter `wght`-Achse (100–900) — keine Pixel-Ästhetik, keine
+Lesbarkeitsfrage mehr. `Geist Mono` ersetzt `IBM Plex Mono` als Body-Font,
+näher an der Gesamtfamilie (selbes Designsystem wie Geist/Geist Pixel).
+
+Verifiziert (`google/fonts`-Repo, `ofl/geist/` und `ofl/geistmono/`): beide
+Familien liegen als je eine variable Datei pro Schnitt vor —
+`Geist[wght].ttf` + `Geist-Italic[wght].ttf`, `GeistMono[wght].ttf` +
+`GeistMono-Italic[wght].ttf`, jeweils `wght` 100–900. Weniger Dateien als der
+ursprüngliche IBM-Plex-Plan (dort 4 statische Gewichte nötig), weil beides
+echte Variable Fonts sind.
+
+Alle vier Fonts werden self-hosted (Grund unverändert: DSGVO — siehe oben).
+
+- `quartz.config.yaml`: `theme.fontOrigin` von `googleFonts` → `local`;
+  `typography.title: Geist Pixel` (neu), `typography.header: Geist` (war
+  `Geist Pixel`), `typography.body: Geist Mono` (war `IBM Plex Mono`),
+  `typography.code: JetBrains Mono` (unverändert).
   - Damit greift in `Head.tsx:51` und `componentResources.ts:285` keiner der
     beiden `fontOrigin === "googleFonts"`-Zweige mehr — keine Google-Requests
     mehr, `cdnCaching` wird dadurch bedeutungslos (Wert kann bleiben, wirkt aber
@@ -70,41 +99,60 @@ Alle drei Fonts (Geist Pixel, IBM Plex Mono, JetBrains Mono) werden self-hosted.
   `custom.scss` eingebunden (Sass `@use` nimmt die Top-Level-CSS-Regeln der
   benutzten Datei mit in die kompilierte Ausgabe auf — gleiches Muster wie
   `base.scss`, das `variables.scss`/`syntax.scss`/`callouts.scss` einbindet).
-  Enthält drei `@font-face`-Blöcke:
+  Enthält `@font-face`-Blöcke für alle vier Fonts:
   - `font-family: "Geist Pixel"` — die echte variable Datei aus
     `vercel/geist-font`, Pfad `fonts/GeistPixel/variable/GeistPixel[ELSH].ttf`
     (Commit `10dc765`, OFL-lizenziert) — nicht die von Google Fonts CDN
     servierte statische Instanz.
-  - `font-family: "IBM Plex Mono"` — Gewichte/Stile, die tatsächlich gebraucht
-    werden (400, 400 italic, 600, 600 italic — IBM Plex Mono liegt typischerweise
-    als statische Weight-Dateien vor, nicht als eine variable Datei).
-  - `font-family: "JetBrains Mono"` — JetBrains stellt offiziell eine variable
-    Datei (wght 100–800) bereit; die einer Sammlung statischer Gewichte
-    vorziehen, wenn verfügbar.
-  - Alle als `.woff2` (Geist Pixel ggf. aus dem TTF konvertieren, falls kein
-    offizielles woff2 vorliegt), `font-display: swap`.
+  - `font-family: "Geist"` — `google/fonts`, `ofl/geist/Geist[wght].ttf` +
+    `Geist-Italic[wght].ttf` (je ein `@font-face`-Block, `font-weight: 100 900`).
+  - `font-family: "Geist Mono"` — `google/fonts`, `ofl/geistmono/GeistMono[wght].ttf`
+    + `GeistMono-Italic[wght].ttf` (gleiches Muster).
+  - `font-family: "JetBrains Mono"` — `google/fonts`, `ofl/jetbrainsmono/JetBrainsMono[wght].ttf`
+    + `JetBrainsMono-Italic[wght].ttf`.
+  - Alle als `.woff2` (aus den TTF-Quellen konvertiert, z.B. via `npx ttf2woff2`
+    — verifiziert: reduziert Geist Pixel von 3.6 MB TTF auf ~41 KB WOFF2),
+    `font-display: swap`.
   - Dateien liegen unter `quartz/static/fonts/` (analog zum bestehenden
     `quartz/static/`-Muster, das 1:1 nach `public/static/` emittiert wird).
-- Die CSS-Variablen `--headerFont`/`--bodyFont`/`--codeFont` werden weiterhin
-  automatisch aus `theme.typography` generiert (`theme.ts:191-194`) — solange
-  die `font-family`-Namen in `fonts.scss` exakt mit den Config-Namen
-  übereinstimmen, ist keine weitere Verdrahtung nötig.
-- `custom.scss`: die toten `font-weight: 900/700/500`-Deklarationen auf
-  `h1`, `.page-title a`, `article h2`, `article.first-page h1 + h2`, `article h4`
-  entfernen. Stattdessen **ein** einheitlicher Pixel-Stil für alle
-  Geist-Pixel-Elemente (H1–H6, Page-Title, Tagline) über eine einzige SCSS-Variable
-  in `fonts.scss` (z.B. `$geist-pixel-shape: 80;` — 80 = "Line", gewählt wegen des
-  "IBM Feel" bei größeren Schriftgraden), referenziert per
-  `font-variation-settings: 'ELSH' #{$geist-pixel-shape}`. Ein späterer
-  Stilwechsel (z.B. zu Grid oder Triangle) ist damit eine Ein-Wert-Änderung an
-  einer Stelle. Hierarchie zwischen Heading-Ebenen kommt weiterhin aus
-  Schriftgröße und Farbe (bestehende Blau-/Orange-Regeln), nicht aus dem
-  Pixel-Stil selbst.
-- IBM Plex Mono (Body) und JetBrains Mono (Code) haben echte `wght`-Achsen —
-  bestehende `font-weight`-Regeln auf Fließtext/Code (nicht auf `h1`–`h6`)
-  bleiben unverändert korrekt, nur die Quelle der Font-Datei ändert sich.
+- Die CSS-Variablen `--titleFont`/`--headerFont`/`--bodyFont`/`--codeFont`
+  werden weiterhin automatisch aus `theme.typography` generiert
+  (`theme.ts:191-194`) — solange die `font-family`-Namen in `fonts.scss` exakt
+  mit den Config-Namen übereinstimmen, ist keine weitere Verdrahtung nötig.
+- `custom.scss`: `--titleFont` und `--headerFont` sind aktuell nicht getrennt
+  verdrahtet — `base.scss:398-405` setzt `font-family: var(--headerFont)`
+  einheitlich auf `h1`–`h6`, und `.page-title` in `custom.scss:114-117` setzt
+  explizit `font-family: var(--headerFont) !important` (nicht `--titleFont`,
+  obwohl es konzeptionell der Site-Titel ist). Für die Title/Header-Trennung:
+  - `.page-title` (custom.scss:116): `var(--headerFont)` → `var(--titleFont)`.
+  - Neue Regel `h1 { font-family: var(--titleFont) !important; }` in
+    `custom.scss` (H1 aus dem geerbten `--headerFont` der `h1,h2,h3,h4,h5,h6`-Sammelregel
+    herausziehen; H2–H6 bleiben unverändert auf `--headerFont` = Geist).
+  - `.tagline` (custom.scss:395) nutzt bereits `var(--titleFont)` — keine Änderung nötig.
+  - Der Drop-Cap-Block (`h2:has(.heading-badge) + p::first-letter`,
+    custom.scss:1013-1023) nutzt explizit `var(--headerFont)` mit
+    `font-weight: 900` — da dieses Element groß (3.4em) und dekorativ ist,
+    genau wie H1 auf `var(--titleFont)` umstellen statt auf Geist (H2-Ebene).
+- Alle toten `font-weight: 900/700/500`-Deklarationen auf Geist-Pixel-Elementen
+  entfernen (`h1`, `.page-title a`, Drop-Cap) und **auf allen vier
+  `--titleFont`-Elementen** (`h1`, `.page-title a`, `.tagline`, Drop-Cap) —
+  auch dort, wo bisher kein `font-weight` stand (`.tagline`), sonst rendert
+  dieses Element auf dem Achsen-Default `ELSH=0` statt dem gewählten Stil —
+  `font-variation-settings: 'ELSH' #{$geist-pixel-shape}` setzen, mit
+  `$geist-pixel-shape: 80;` (= "Line", gewählt wegen des "IBM Feel" bei
+  größeren Schriftgraden) als einzige SCSS-Variable in `fonts.scss` — ein
+  späterer Stilwechsel ist damit eine Ein-Wert-Änderung an einer Stelle.
+- `article h2`/`article h4` (custom.scss:194-201, 219-225): die toten
+  `font-weight: 500`-Zeilen entfernen, keine Ersatzregel nötig — Geist hat eine
+  echte `wght`-Achse, die vorhandenen `font-weight`-Werte auf H2–H6 greifen
+  jetzt automatisch korrekt (kein Sonderfall mehr).
+- Geist Mono (Body), Geist (H2–H6) und JetBrains Mono (Code) haben echte
+  `wght`-Achsen — bestehende `font-weight`-Regeln auf Fließtext/H2–H6/Code
+  bleiben funktional korrekt, nur die Font-Quelle ändert sich.
 
 ## 2. Farben
+
+### Hintergrund
 
 `quartz.config.yaml`, `theme.colors`:
 - `lightMode.light`: `#d4d4d4` → `#ffffff`
@@ -113,8 +161,54 @@ Alle drei Fonts (Geist Pixel, IBM Plex Mono, JetBrains Mono) werden self-hosted.
 Reines Schwarz/Weiß statt Off-Black/Off-White (Korrektur nach initialer
 Empfehlung) — passt besser zum kompromisslos cleanen Look.
 
-Alle anderen Farbwerte (Akzente Blau `#3347cb`/Orange `#ee683d`, Text- und
-Grautöne) bleiben unverändert.
+### Überschriften/Titel: monochrom statt Blau/Orange
+
+Aktuell setzt `custom.scss:167-187` `h1`–`h6` und `.page-title a` explizit auf
+`#3347cb` (Light) / `#ee683d` (Dark) — ein Farb-Akzent, der nicht mehr zum
+"schonungslos cleanen" Konzept passt. Neu: Überschriften und Titel bekommen
+dieselbe Farbe wie der Hintergrund-Gegenpol — reines Schwarz auf hellem,
+reines Weiß auf dunklem Grund:
+
+- `[saved-theme="light"] h1, h2, h3, h4, h5, h6, .page-title a` → `#000000`
+  (ersetzt `#3347cb`)
+- `[saved-theme="dark"] h1, h2, h3, h4, h5, h6, .page-title a` → `#ffffff`
+  (ersetzt `#ee683d`)
+
+Bestehende `--darkgray`/`--dark`-Werte (Body-Text: `#111111`/`#222222` Light,
+`#eeeeee`/`#dddddd` Dark) bleiben unverändert — Überschriften werden dadurch
+bewusst dunkler/heller als der Fließtext, nicht identisch mit ihm.
+
+### Links/Akzent: von Farbe auf Grau
+
+Der Blau/Orange-Akzent verschwindet nicht ersatzlos, sondern wandert auf die
+einzige Stelle, wo Farbe noch eine Funktion hat — Links. `secondary`/`tertiary`
+in `theme.colors` treiben laut `theme.ts:217-272` bereits zentral
+`--link-color`, `--link-color-hover`, `--text-accent`, `--tag-color`,
+`--nav-item-color-active`, `--icon-color-active` — ein einziger Config-Wechsel
+wirkt sich also korrekt auf alle Link-artigen Elemente aus, keine Einzelregeln
+nötig.
+
+- `lightMode.secondary`: `#3347cb` → `#444444` (Link-Grundfarbe)
+- `lightMode.tertiary`: `#5468e0` → `#222222` (Hover — wiederverwendet den
+  bestehenden `--darkgray`-Wert, dunkelt beim Hover Richtung Body-Text-Kontrast)
+- `darkMode.secondary`: `#ee683d` → `#cccccc`
+- `darkMode.tertiary`: `#f58a68` → `#eeeeee` (Hover — wiederverwendet
+  `--darkgray` im Dark-Theme, hellt Richtung Body-Text-Kontrast auf)
+
+Bestätigt (Nutzerentscheidung): Link-Grundfarbe dezent von der
+Überschriften-Extremfarbe abgesetzt (`#444444` neben `#000000` Light,
+`#cccccc` neben `#ffffff` Dark) — erkennbar als eigene Ebene, aber nicht laut.
+Hover verstärkt Richtung Body-Text-Kontrast statt Richtung der (jetzt
+entfernten) Bunt-Akzentfarbe.
+
+`--accent-h/s/l` (`theme.ts:275-277`, aus `secondary` berechnet) werden dadurch
+zu einem neutralen Grauton (Sättigung 0) — unproblematisch, keine bekannte
+Stelle im Code verlangt einen bunten Hue hier.
+
+**Nebeneffekt, bewusst in Kauf genommen:** Light- und Dark-Theme verlieren
+ihre bisherige farbliche Eigenständigkeit (Blau vs. Orange) und werden zu
+reinen Invertierungen voneinander. Das ist im Sinne von "schonungslos clean"
+gewollt, aber der Punkt, an dem dieser Unterschied verloren geht.
 
 ## 3. Noise entfernen
 
@@ -159,8 +253,6 @@ body {
 
 ## Out of Scope
 
-- Farbe der Überschriften (Blau/Orange je Theme) — unverändert, nicht Teil
-  dieser Anfrage.
 - Content, Linter-Feature — separate Projekte.
 - Automatisiertes Font-Fetching für `fontOrigin: local` (à la der bestehenden
   `googleFonts`-Pipeline in `componentResources.ts`) — Dateien werden für
