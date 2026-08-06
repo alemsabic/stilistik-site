@@ -521,7 +521,7 @@ body:has(.page[data-frame="canvas"]) {
 }
 
 [saved-theme="light"] ::-webkit-scrollbar-thumb:active {
-  background-color: #ee683d;
+  background-color: var(--secondary);
 }
 
 // Dark theme scrollbar
@@ -538,7 +538,7 @@ body:has(.page[data-frame="canvas"]) {
 }
 
 [saved-theme="dark"] ::-webkit-scrollbar-thumb:active {
-  background-color: #39ff14;
+  background-color: var(--secondary);
 }
 
 // Override strong color - bold weight is sufficient emphasis (no color change needed)
@@ -619,12 +619,9 @@ article.dictionary-entry .footnotes {
     padding-left: 1rem !important; // Reduced padding for compact layout
     margin: 0 !important;
 
-    // Footnote markers color - third accent color
+    // Footnote markers color - accent color
     ::marker {
-      color: #ee683d !important;
-    }
-    [saved-theme="dark"] & ::marker {
-      color: #39ff14 !important;
+      color: var(--secondary) !important;
     }
   }
 
@@ -638,18 +635,11 @@ article.dictionary-entry .footnotes {
   }
 }
 
-// Superscript footnote links in dictionary entries - third accent color
+// Superscript footnote links in dictionary entries - accent color
 article.dictionary-entry sup a {
   font-size: 0.75rem !important;
   text-decoration: none !important;
-}
-
-[saved-theme="light"] article.dictionary-entry sup a {
-  color: #ee683d !important;
-}
-
-[saved-theme="dark"] article.dictionary-entry sup a {
-  color: #39ff14 !important;
+  color: var(--secondary) !important;
 }
 
 // Highlight footnote when clicked (using :target pseudo-class AND .footnote-highlighted class for SPA)
@@ -946,13 +936,13 @@ a.internal.tag-link:hover {
 }
 
 [saved-theme="light"] .heading-badge {
-  background-color: rgba(51, 71, 203, 0.1);
-  color: #3347cb;
+  background-color: rgba(68, 68, 68, 0.1);
+  color: var(--secondary);
 }
 
 [saved-theme="dark"] .heading-badge {
-  background-color: rgba(238, 104, 61, 0.15);
-  color: #ee683d;
+  background-color: rgba(204, 204, 204, 0.15);
+  color: var(--secondary);
 }
 
 // ============================================
@@ -979,13 +969,13 @@ a.internal.tag-link:hover {
 }
 
 [saved-theme="light"] .callout-title .callout-title-inner p {
-  background-color: rgba(51, 71, 203, 0.1);
-  color: #3347cb !important;
+  background-color: rgba(68, 68, 68, 0.1);
+  color: var(--secondary) !important;
 }
 
 [saved-theme="dark"] .callout-title .callout-title-inner p {
-  background-color: rgba(238, 104, 61, 0.15);
-  color: #ee683d !important;
+  background-color: rgba(204, 204, 204, 0.15);
+  color: var(--secondary) !important;
 }
 
 // Callout content: smaller font size and line-height
@@ -1049,12 +1039,8 @@ article ul li.li-im-fokus {
   list-style: none;
 }
 
-[saved-theme="light"] article ul li.li-im-fokus {
-  border-left-color: #3347cb;
-}
-
-[saved-theme="dark"] article ul li.li-im-fokus {
-  border-left-color: #ee683d;
+article ul li.li-im-fokus {
+  border-left-color: var(--secondary);
 }
 
 .fokus-marker {
@@ -1073,13 +1059,13 @@ article ul li.li-im-fokus {
 }
 
 [saved-theme="light"] .fokus-marker {
-  background-color: rgba(51, 71, 203, 0.1);
-  color: #3347cb;
+  background-color: rgba(68, 68, 68, 0.1);
+  color: var(--secondary);
 }
 
 [saved-theme="dark"] .fokus-marker {
-  background-color: rgba(238, 104, 61, 0.15);
-  color: #ee683d;
+  background-color: rgba(204, 204, 204, 0.15);
+  color: var(--secondary);
 }
 
 // ============================================================================
