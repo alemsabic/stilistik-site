@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=./quartz/plugins/quartz-plugins.schema.json
 configuration:
-  pageTitle: stilistik
+  pageTitle: Stilistik
   pageTitleSuffix: "Moderne Stilistik für bessere Texte. Geschrieben für Mensch und Maschine."
   enableSPA: true
   enablePopovers: true
