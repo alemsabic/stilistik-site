@@ -1,6 +1,6 @@
 # Visueller Refresh: Typografie, Farben, Hintergrund
 
-**Status:** draft, pending final review
+**Status:** approved, ready for implementation plan
 **Datum:** 2026-08-06
 
 ## Kontext
@@ -107,8 +107,11 @@ Alle drei Fonts (Geist Pixel, IBM Plex Mono, JetBrains Mono) werden self-hosted.
 ## 2. Farben
 
 `quartz.config.yaml`, `theme.colors`:
-- `lightMode.light`: `#d4d4d4` → `#fafafa`
-- `darkMode.light`: `#0a1967` → `#0a0a0a`
+- `lightMode.light`: `#d4d4d4` → `#ffffff`
+- `darkMode.light`: `#0a1967` → `#000000`
+
+Reines Schwarz/Weiß statt Off-Black/Off-White (Korrektur nach initialer
+Empfehlung) — passt besser zum kompromisslos cleanen Look.
 
 Alle anderen Farbwerte (Akzente Blau `#3347cb`/Orange `#ee683d`, Text- und
 Grautöne) bleiben unverändert.
