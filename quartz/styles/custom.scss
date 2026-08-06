@@ -140,6 +140,22 @@
   gap: 1.2rem !important;
 }
 
+// TOC's `display: desktop-only` layout option wraps it in its own
+// <div class="desktop-only"> (quartz/components/DesktopOnly.tsx), so it's not a direct child
+// of .sidebar.right — base.scss's `.sidebar.right > .toc { display: none }` (meant to hide TOC
+// once Graph/Backlinks drop into the tablet-width horizontal row) never matches that child
+// combinator. And .desktop-only itself only goes `display: none` below the mobile breakpoint
+// (800px); from 800–1200px it's `display: contents` — boxless but still visible — so TOC rides
+// along next to Graph/Backlinks through the whole tablet range instead of disappearing with it.
+// Descendant selector here reaches through the wrapper regardless of its display value.
+.page > #quartz-body .sidebar.right {
+  @media all and not ($desktop) {
+    .toc {
+      display: none !important;
+    }
+  }
+}
+
 // Desktop: H1 in articles larger font size
 // NOTE: v5's content-page/folder-page/tag-page plugins hardcode an extra
 // `div.markdown-preview-view.markdown-rendered` wrapper between <article> and its content (not
