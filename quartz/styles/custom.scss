@@ -284,12 +284,17 @@ ol ::marker {
   color: var(--darkgray) !important;
 }
 
-// HR element dashed line styling
+// HR element styling — solid line, same color as the body's vertical
+// background lines (see the DNB-Buchumschlag-inspired accent below).
 hr {
   border: none !important;
-  border-top: 1px dashed var(--darkgray) !important;
+  border-top: 1px solid rgba(0, 0, 0, 0.08) !important;
   margin: 2.5rem 0 !important;
   background: none !important;
+}
+
+[saved-theme="dark"] hr {
+  border-top-color: rgba(255, 255, 255, 0.08) !important;
 }
 
 // Mobile sticky header with transparent background
@@ -396,20 +401,15 @@ a.internal.tag-link {
 }
 
 // Tagline (below page title, left sidebar). Ported 1:1 from ale.ms's custom.scss.
+// Color matches link color (var(--secondary)) rather than a fixed accent, so light/dark
+// theming stays automatic instead of needing separate [saved-theme] overrides.
 .tagline {
   font-size: 0.85rem;
   margin-top: 0.5rem;
   margin-bottom: 2.5rem;
   line-height: 1.15;
   font-family: var(--bodyFont);
-}
-
-[saved-theme="light"] .tagline {
-  color: #3347cb;
-}
-
-[saved-theme="dark"] .tagline {
-  color: #eab308;
+  color: var(--secondary);
 }
 
 // Short tagline (mobile) vs. full tagline (desktop) — swap which span shows
@@ -1337,12 +1337,13 @@ body[data-slug="index"] {
   // they use — via the grid now, not its own max-width. Explicit order so it always sorts
   // after both (see the .page-footer comment above for why that's needed at all).
   // Separator above the Site Index, matching the global `hr` rule further up in this file
-  // (1px dashed var(--darkgray)) exactly. The grid's own 2.5rem gap above already matches
-  // that rule's top margin; padding-top here reproduces its bottom margin the same way.
+  // (1px solid, same color as the body's vertical background lines) exactly. The grid's own
+  // 2.5rem gap above already matches that rule's top margin; padding-top here reproduces its
+  // bottom margin the same way.
   .page-footer > .site-index {
     order: 3;
     grid-column: 1 / -1;
-    border-top: 1px dashed var(--darkgray);
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
     padding-top: 2.5rem;
   }
 
@@ -1376,7 +1377,10 @@ body[data-slug="index"] {
     display: inline-block;
     min-width: 1.6rem;
     text-align: center;
-    font-weight: 700;
+    // !important needed: the global `a { font-weight: 400 !important }` rule above
+    // (normalizes Quartz's default semi-bold links to regular weight) would otherwise
+    // win over this despite its lower specificity, since !important ignores specificity.
+    font-weight: 700 !important;
     padding: 0.1rem 0.3rem;
     border-radius: 3px;
   }
@@ -1426,8 +1430,10 @@ body[data-slug="index"] {
     margin-bottom: 1.25rem;
   }
 
+  // Matches .site-index-nav a's desktop size/weight (font-size: 2.3rem; font-weight: 700)
+  // so the A–Z group headers read at the same visual weight as the sticky nav shortcuts.
   .site-index-letter {
-    font-size: 1.1rem;
+    font-size: 2.3rem;
     font-weight: 700;
     color: var(--secondary);
     border-bottom: 2px solid var(--lightgray);
@@ -1445,4 +1451,8 @@ body[data-slug="index"] {
     font-size: 1.25rem;
     padding: 0.1rem 0;
   }
+}
+
+[saved-theme="dark"] body[data-slug="index"] .page-footer > .site-index {
+  border-top-color: rgba(255, 255, 255, 0.08);
 }

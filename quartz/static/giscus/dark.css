@@ -18,17 +18,17 @@ main {
     "Segoe UI Emoji",
     "Segoe UI Symbol";
 
-  /* Clinical Cold Theme - Dark Mode */
-  --bg: #0a1967; /* Deep terminal navy */
+  /* stilistik.org theme - Dark Mode (matches quartz.config.yaml darkMode colors) */
+  --bg: #000000; /* --light */
   --bg-secondary: rgba(255, 255, 255, 0.05);
-  --text: #dddddd; /* Light gray */
-  --text-muted: #888888; /* Muted gray */
-  --link: #ee683d; /* Accent orange, matches site headings/links */
-  --link-hover: #f58a68; /* Lighter accent orange */
+  --text: #eeeeee; /* --darkgray */
+  --text-muted: #888888; /* --gray */
+  --link: #999999; /* --secondary, matches site link color */
+  --link-hover: #cccccc; /* --tertiary, matches site link hover color */
   --border: #333333; /* Dark gray border */
 
   /* Syntax highlighting */
-  --color-prettylights-syntax-comment: rgba(221, 221, 221, 0.6);
+  --color-prettylights-syntax-comment: rgba(238, 238, 238, 0.6);
   --color-prettylights-syntax-constant: var(--link);
   --color-prettylights-syntax-entity: var(--link);
   --color-prettylights-syntax-storage-modifier-import: var(--text);
@@ -60,7 +60,7 @@ main {
   --color-prettylights-syntax-constant-other-reference-link: var(--link);
 
   /* Button styles */
-  --color-btn-text: #dddddd;
+  --color-btn-text: #eeeeee;
   --color-btn-bg: transparent;
   --color-btn-border: #333333;
   --color-btn-shadow: none;
@@ -73,8 +73,8 @@ main {
 
   /* Primary button */
   --color-btn-primary-text: #000000;
-  --color-btn-primary-bg: #dddddd;
-  --color-btn-primary-border: #dddddd;
+  --color-btn-primary-bg: #eeeeee;
+  --color-btn-primary-border: #eeeeee;
   --color-btn-primary-shadow: none;
   --color-btn-primary-inset-shadow: none;
   --color-btn-primary-hover-bg: #ffffff;
@@ -84,14 +84,14 @@ main {
 
   /* Disabled state */
   --color-btn-primary-disabled-text: rgba(0, 0, 0, 0.5);
-  --color-btn-primary-disabled-bg: rgba(221, 221, 221, 0.5);
+  --color-btn-primary-disabled-bg: rgba(238, 238, 238, 0.5);
   --color-btn-primary-disabled-border: transparent;
 
   /* Action list and controls */
   --color-action-list-item-default-hover-bg: rgba(255, 255, 255, 0.05);
   --color-segmented-control-bg: rgba(255, 255, 255, 0.05);
   --color-segmented-control-button-bg: transparent;
-  --color-segmented-control-button-selected-border: #dddddd;
+  --color-segmented-control-button-selected-border: #eeeeee;
 
   /* Foreground colors */
   --color-fg-default: var(--text);
@@ -105,24 +105,24 @@ main {
   --color-canvas-subtle: transparent;
 
   /* Border colors */
-  --color-border-default: rgba(221, 221, 221, 0.2);
-  --color-border-muted: rgba(221, 221, 221, 0.1);
-  --color-neutral-muted: rgba(221, 221, 221, 0.05);
+  --color-border-default: rgba(238, 238, 238, 0.2);
+  --color-border-muted: rgba(238, 238, 238, 0.1);
+  --color-neutral-muted: rgba(238, 238, 238, 0.05);
 
   /* Accent colors */
   --color-accent-fg: var(--link);
   --color-accent-emphasis: var(--link);
-  --color-accent-muted: rgba(221, 221, 221, 0.4);
-  --color-accent-subtle: rgba(221, 221, 221, 0.1);
+  --color-accent-muted: rgba(238, 238, 238, 0.4);
+  --color-accent-subtle: rgba(238, 238, 238, 0.1);
 
   /* Success, attention, danger */
-  --color-success-fg: #dddddd;
-  --color-attention-fg: #dddddd;
-  --color-attention-muted: rgba(221, 221, 221, 0.4);
-  --color-attention-subtle: rgba(221, 221, 221, 0.1);
-  --color-danger-fg: #dddddd;
-  --color-danger-muted: rgba(221, 221, 221, 0.4);
-  --color-danger-subtle: rgba(221, 221, 221, 0.1);
+  --color-success-fg: #eeeeee;
+  --color-attention-fg: #eeeeee;
+  --color-attention-muted: rgba(238, 238, 238, 0.4);
+  --color-attention-subtle: rgba(238, 238, 238, 0.1);
+  --color-danger-fg: #eeeeee;
+  --color-danger-muted: rgba(238, 238, 238, 0.4);
+  --color-danger-subtle: rgba(238, 238, 238, 0.1);
 
   /* Shadows */
   --color-primer-shadow-inset: none;
@@ -157,45 +157,45 @@ main pre {
 
 /* Fix text color and font-weight */
 main .color-text-primary {
-  color: #dddddd !important;
+  color: #eeeeee !important;
   font-weight: 700 !important;
 }
 
 main .color-text-primary.underline {
-  color: #dddddd !important;
+  color: #eeeeee !important;
   font-weight: 700 !important;
   text-decoration: underline !important;
 }
 
 /* Reactions count */
 main .gsc-reactions-count {
-  color: #dddddd !important;
+  color: #eeeeee !important;
   font-weight: 700 !important;
 }
 
 /* Comments count */
 main .gsc-comments-count,
 main .gsc-comments-count-separator {
-  color: #dddddd !important;
+  color: #eeeeee !important;
   font-weight: 700 !important;
 }
 
 /* Input Placeholder */
 main textarea::placeholder,
 main input::placeholder {
-  color: rgba(221, 221, 221, 0.6) !important;
+  color: rgba(238, 238, 238, 0.6) !important;
 }
 
 /* Input Borders & Backgrounds */
 main textarea,
 main input {
-  border: 1px solid rgba(221, 221, 221, 0.2) !important;
+  border: 1px solid rgba(238, 238, 238, 0.2) !important;
   background-color: rgba(255, 255, 255, 0.05) !important;
-  color: #dddddd !important;
+  color: #eeeeee !important;
 }
 
 main textarea:focus,
 main input:focus {
-  border: 1px solid #dddddd !important;
+  border: 1px solid #eeeeee !important;
   box-shadow: none !important;
 }
