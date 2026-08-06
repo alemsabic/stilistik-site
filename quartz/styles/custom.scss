@@ -249,23 +249,24 @@ aside {
   -moz-osx-font-smoothing: grayscale;
 }
 
-// Noise texture overlay - light theme
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-image: url("/static/noise.png");
-  background-repeat: repeat;
-  pointer-events: none;
-  z-index: 9999;
+// Vertical line background — subtle, DNB-Buchumschlag-inspired accent that
+// replaces the old noise texture (removed for a cleaner look). No pseudo-
+// element needed here (unlike the old noise overlay) since this doesn't use
+// a blend mode.
+body {
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.08) 0 1px,
+    transparent 1px 80px
+  );
 }
 
-// Noise texture overlay - dark theme
-[saved-theme="dark"] body::before {
-  opacity: 0.5;
+[saved-theme="dark"] body {
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.08) 0 1px,
+    transparent 1px 80px
+  );
 }
 
 // ============================================
