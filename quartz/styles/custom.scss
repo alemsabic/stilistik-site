@@ -182,6 +182,11 @@ h1 {
   font-variation-settings: "ELSH" #{$geist-pixel-shape};
 }
 
+// Dark theme: a lighter pixel shape reads better against the near-black background.
+[saved-theme="dark"] h1 {
+  font-variation-settings: "ELSH" 60;
+}
+
 // Überschriften + Page-Title in derselben Farbe wie der Fließtext
 // (var(--darkgray), konsequent monochrom) — kein eigener Farbakzent mehr,
 // der lebt jetzt nur noch bei Links, siehe theme.colors.secondary/tertiary
@@ -211,6 +216,11 @@ h6 {
 // Page title link matches the title font's pixel shape
 .page-title a {
   font-variation-settings: "ELSH" #{$geist-pixel-shape};
+}
+
+// Dark theme: same lighter pixel shape as h1 above.
+[saved-theme="dark"] .page-title a {
+  font-variation-settings: "ELSH" 60;
 }
 
 // Additional margin for h2 and h3 within content
