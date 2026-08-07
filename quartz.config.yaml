@@ -22,7 +22,7 @@ configuration:
       code: JetBrains Mono
     colors:
       lightMode:
-        light: "#ffffff"
+        light: "#eeeeee"
         lightgray: rgba(0, 0, 0, 0.07)
         gray: "#666666"
         darkgray: "#111111"

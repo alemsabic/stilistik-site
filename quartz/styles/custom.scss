@@ -1178,6 +1178,17 @@ body[data-slug="index"] {
     margin-top: 1.75rem;
   }
 
+  // Hero tagline never truncates to the short form on mobile — the homepage hero has
+  // room for the full sentence, unlike the sidebar tagline elsewhere on the site (which
+  // does need the short version at narrow widths, see .tagline-short/.tagline-full above).
+  .page-header .tagline-full {
+    display: inline !important;
+  }
+
+  .page-header .tagline-short {
+    display: none !important;
+  }
+
   // Tagline.tsx hardcodes "desktop-only" on its root div, and base custom.scss hides
   // .tagline.desktop-only under 800px — correct for the sidebar instance, but the hero above
   // needs its Tagline instance to show on mobile too ("Title + Tagline + Search"). Scoped to
@@ -1293,15 +1304,26 @@ body[data-slug="index"] {
     margin-bottom: 1.25rem;
   }
 
-  // Matches .site-index-nav a's desktop size/weight (font-size: 2.3rem; font-weight: 700)
-  // so the A–Z group headers read at the same visual weight as the sticky nav shortcuts.
+  // Matches .site-index-nav a's size/weight at every width — inherits the same (unset,
+  // browser-default) mobile size here as the nav links get, then both are bumped to 2.3rem
+  // together in the desktop media query below, so the A–Z group headers always read at the
+  // same visual weight as the sticky nav shortcuts instead of only matching on desktop.
   .site-index-letter {
-    font-size: 2.3rem;
+    font-size: inherit;
     font-weight: 700;
     color: var(--secondary);
     border-bottom: 1px solid var(--lightgray);
     margin: 0 0 0.3rem 0;
     padding-bottom: 0.15rem;
+  }
+
+  // Placed after the base rule above (source order matters: same specificity, so a rule
+  // earlier in the file — like the .site-index-nav media query above — loses the cascade
+  // to this base rule if declared before it, even though its media condition also matches).
+  @media (min-width: 800px) {
+    .site-index-letter {
+      font-size: 2.3rem;
+    }
   }
 
   .site-index-group ul {
