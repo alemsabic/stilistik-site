@@ -6,4 +6,3 @@ showContentHeader: false
 comments: false
 ---
 
-Pipeline-Test-Platzhalter. Inhalt folgt.

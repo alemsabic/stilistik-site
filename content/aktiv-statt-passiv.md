@@ -3,12 +3,14 @@ title: Sag, wer handelt
 language: de
 tags:
   - Aktiv-Passiv
-  - Schneider
+  - Testtag
 ---
+
+
+# Hier wird eine große Überschrift stehen
+
 
 **TL;DR:** Das Passiv versteckt den Handelnden. Das Aktiv zeigt ihn. Schreib aktiv, es sei denn, der Handelnde ist unwichtig oder unbekannt.
-
----
 
 ## Warum
 
@@ -17,8 +19,6 @@ Ein Satz braucht einen Akteur. Jemanden, der etwas tut. Das Passiv nimmt diesen 
 Wolf Schneider nannte das Passiv die "hässlichste Form des Verbs". Das stimmt nicht immer. Aber meistens stimmt es.
 
 Das Passiv ist das Lieblingsverb der Bürokratie. Behörden schreiben passiv, weil niemand verantwortlich sein will. Unternehmen schreiben passiv, weil es seriös klingt. Beides ist falsch. Seriös klingt, wer klar sagt, was er tut.
-
----
 
 ## Der Diff
 
@@ -52,7 +52,6 @@ Wer beschloss? Im Passiv weiß es niemand. Im Aktiv steht es da.
 
 Zwei Sätze statt einem. Kürzer. Klarer. Und plötzlich gibt es ein "Wir", das Verantwortung übernimmt.
 
----
 
 ## Die Mechanik
 
@@ -73,7 +72,6 @@ Aus "Die Daten werden verarbeitet" wird: Wer verarbeitet? Das System. Also: "Das
 
 Aus "Es ist zu beachten, dass" wird: Wer beachtet? Du. Also: "Beachte, dass."
 
----
 
 ## Ausnahmen
 
@@ -85,7 +83,6 @@ Nicht jedes Passiv ist schlecht. Manchmal ist der Handelnde unwichtig.
 
 Die Regel: Wenn der Leser nach dem Akteur fragen würde, schreib aktiv. Wenn niemand fragt, darf das Passiv bleiben.
 
----
 
 ## Verwandte Regeln
 
